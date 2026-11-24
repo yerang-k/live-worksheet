@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>국어 라이브 학습지 (Live Worksheet)</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --primary-dark: #1d4ed8;
+      --secondary: #0d9488;
+      --accent: #f59e0b;
+      --danger: #ef4444;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 상단 헤더 */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+
+    .brand-logo {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 9999px;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .view-switcher {
+      display: flex;
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .view-btn {
+      padding: 0.35rem 0.85rem;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .view-btn.active {
+      background: var(--surface);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* 메인 컨테이너 */
+    main {
+      flex: 1;
+      padding: 1.5rem;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* 1. 첫 화면: 학습지 보관함 (Worksheet Deck) */
+    #view-deck {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .deck-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-outline {
+      background: white;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .btn-sm {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+      border-radius: 6px;
+    }
+
+    .worksheet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* 학습지 카드 */
+    .worksheet-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .worksheet-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .tag-grade {
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .card-date {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .card-blocks-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .block-chip {
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 1rem;
+    }
+
+    /* 2. 시연 뷰 (Dual Split View) */
+    #view-demo {
+      display: none;
+      height: calc(100vh - 125px);
+      gap: 1.25rem;
+    }
+
+    .split-pane {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .pane-header {
+      padding: 0.85rem 1.25rem;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pane-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .badge-role {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .badge-teacher { background: #fee2e2; color: #b91c1c; }
+    .badge-student { background: #dcfce7; color: #15803d; }
+
+    .pane-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* 교사 컨트롤 패널 */
+    .teacher-controls {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .pacing-toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #cbd5e1; transition: .2s; border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+      background-color: white; transition: .2s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--secondary); }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    .block-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .block-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 0.9rem;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .block-nav-item.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      font-weight: 700;
+    }
+
+    .block-nav-item:hover:not(.active) {
+      background: #f8fafc;
+    }
+
+    /* 학생 응답 실시간 목록 (교사용: 실명) */
+    .response-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    .feed-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    .feed-author {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .author-realname {
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    /* 학생 뷰 화면 구성 */
+    .student-status-bar {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+    }
+
+    .active-block-container {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .block-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    .block-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    /* 지문 박스 */
+    .passage-box {
+      background: #fbfbfe;
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      white-space: pre-line;
+      color: #334155;
+    }
+
+    .vocab-tip {
+      border-bottom: 1px dashed var(--primary);
+      color: var(--primary-dark);
+      cursor: help;
+      font-weight: 600;
+      position: relative;
+    }
+
+    /* 생각 적기 카드 보드 */
+    .thought-input-area {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .thought-textarea {
+      width: 100%;
+      height: 80px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.9rem;
+      resize: vertical;
+    }
+    .thought-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* 친구들의 생각 카드 (익명 + 하트) */
+    .peer-thoughts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .peer-card {
+      background: #fefce8;
+      border: 1px solid #fef08a;
+      border-radius: 8px;
+      padding: 0.85rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .peer-nick {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #854d0e;
+    }
+
+    .peer-text {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #713f12;
+    }
+
+    .like-btn {
+      align-self: flex-end;
+      background: transparent;
+      border: 1px solid #fde047;
+      padding: 0.2rem 0.5rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      color: #a16207;
+      transition: transform 0.1s;
+    }
+    .like-btn:hover {
+      transform: scale(1.05);
+      background: #fef9c3;
+    }
+    .like-btn.liked {
+      background: #fde047;
+      font-weight: 700;
+    }
+
+    /* 투표 UI */
+    .poll-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .poll-opt-btn {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.9rem;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      transition: border-color 0.15s;
+    }
+    .poll-opt-btn:hover { border-color: var(--primary); }
+
+    .poll-bar {
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      background: var(--primary-light);
+      z-index: 0;
+      transition: width 0.3s ease;
+    }
+    .poll-opt-text { position: relative; z-index: 1; font-weight: 600; }
+    .poll-opt-count { position: relative; z-index: 1; color: var(--primary-dark); font-weight: 700; }
+
+    /* 워드클라우드 미리보기 */
+    .wordcloud-container {
+      background: #f8fafc;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      min-height: 140px;
+    }
+
+    .wc-word {
+      font-weight: 800;
+      transition: all 0.3s;
+      cursor: default;
+    }
+
+    /* 모달 */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: white;
+      border-radius: var(--radius);
+      max-width: 650px;
+      width: 100%;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-lg);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-desc {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* 업로드 드롭존 */
+    .dropzone {
+      border: 2px dashed #94a3b8;
+      border-radius: 10px;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dropzone:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* 하단 푸터 */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .footer-version {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 네비게이션 헤더 -->
+  <header>
+    <div class="brand" onclick="switchView('deck')">
+      <div class="brand-logo">L</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:0.4rem;">
+          <span class="brand-title">라이브 학습지</span>
+          <span class="brand-badge">국어과 에디션</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-nav">
+      <div class="view-switcher">
+        <button class="view-btn active" id="btn-view-deck" onclick="switchView('deck')">📚 학습지 보관함</button>
+        <button class="view-btn" id="btn-view-demo" onclick="switchView('demo')">⚡ 실시간 분할 시연 뷰</button>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="openNewWindow('student')">새 탭으로 학생창 열기 ↗</button>
+    </div>
+  </header>
+
+  <!-- 메인 본문 -->
+  <main>
+
+    <!-- 1. 첫 화면: 학습지 보관함 (Worksheet Deck) -->
+    <section id="view-deck">
+      <div class="deck-topbar">
+        <div>
+          <h2 class="section-title">내 국어 학습지 보관함</h2>
+          <p class="section-desc">한글(HWP/PDF)로 만든 수업 자료를 실시간 상호작용 학습지로 변환해 수업을 진행합니다.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openUploadModal()">
+          📄 + 한글/PDF로 새 학습지 만들기
+        </button>
+      </div>
+
+      <!-- 객체 목록: 학습지 카드 목록이 첫 화면에 바로 나타남 -->
+      <div class="worksheet-grid" id="worksheet-list">
+        <!-- 카드 1: 윤동주 시 수업 -->
+        <div class="worksheet-card">
+          <div>
+            <div class="card-meta">
+              <span class="tag-grade">고1 국어 · 문학</span>
+              <span class="card-date">2026-11-06 등록</span>
+            </div>
+            <h3 class="card-title">윤동주, &lt;쉽게 씌어진 시&gt; — 시대의 어둠과 자아 성찰</h3>
+            <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1rem; line-height:1.5;">
+              어둠 속 등불을 밝혀 시대를 건너는 화자의 태도를 읽고, 오늘날 나의 고민을 성찰하는 50분 참여 수업
+            </p>
+            <div class="card-blocks-summary">
+              <span class="block-chip">📖 지문 해설</span>
+              <span class="block-chip">💭 생각 적기</span>
+              <span class="block-chip">☁️ 워드클라우드</span>
+              <span class="block-chip">📊 찬반 투표</span>
+              <span class="block-chip">⏱️ OX 퀴즈</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary btn-sm" style="flex:1;" onclick="startLiveDemo('ws-dongju')">
+              ▶ 수업 시작 (실시간 시연)
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="alert('수정 기능 준비 중입니다.')">수정</button>
+          </div>
+        </div>
+
+        <!-- 카드 2: 비문학 논증 수업 -->
+        <div class="worksheet-card">
+          <div>
+            <div class="card-meta">
+              <span class="tag-grade">고2 독서 · 사회문화</span>
+              <span class="card-date">2026-11-05 등록</span>
+            </div>
+            <h3 class="card-title">인공지능 윤리와 창작권 논쟁 (비문학 제재 분석)</h3>
+            <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1rem; line-height:1.5;">
+              AI가 생성한 창작물의 저작권 인정 여부를 둘러싼 대립 논거를 분석하고 실시간 찬반 토론
+            </p>
+            <div class="card-blocks-summary">
+              <span class="block-chip">📖 읽기 지문</span>
+              <span class="block-chip">📊 찬반 투표</span>
+              <span class="block-chip">💭 논거 쓰기</span>
+              <span class="block-chip">⏱️ 4지선다 퀴즈</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary btn-sm" style="flex:1;" onclick="startLiveDemo('ws-ai')">
+              ▶ 수업 시작 (실시간 시연)
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="alert('수정 기능 준비 중입니다.')">수정</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 실시간 시연 뷰 (왼쪽: 교사 화면 / 오른쪽: 학생 화면) -->
+    <section id="view-demo">
+      <!-- 왼쪽 패널: 교사 컨트롤러 -->
+      <div class="split-pane">
+        <div class="pane-header">
+          <div class="pane-title">
+            <span class="badge-role badge-teacher">교사 관리 화면</span>
+            <span id="demo-ws-title" style="font-size:0.9rem; font-weight:600;">윤동주 &lt;쉽게 씌어진 시&gt;</span>
+          </div>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <span style="font-size:0.8rem; color:var(--text-muted);">PIN: <strong>7294</strong> (접속 4명)</span>
+            <button class="btn btn-outline btn-sm" onclick="exportToCSV()">📥 구글 시트(CSV) 내보내기</button>
+            <button class="btn btn-primary btn-sm" onclick="openReportModal()">📊 수업 요약 리포트</button>
+          </div>
+        </div>
+
+        <div class="pane-body">
+          <!-- 상단 제어 바: 잠금/자율 모드 토글 -->
+          <div class="teacher-controls">
+            <div class="pacing-toggle-wrap">
+              <span>수업 진행 모드:</span>
+              <label class="switch">
+                <input type="checkbox" id="mode-toggle" onchange="togglePacingMode(this.checked)">
+                <span class="slider"></span>
+              </label>
+              <span id="mode-label" style="color:var(--primary-dark); font-weight:700;">강제 동기화 (교사 주도)</span>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="simulatePeerResponses()">
+              🤖 가상 학생 응답 생성 (+3명)
+            </button>
+          </div>
+
+          <!-- 블록 타임라인 목록 -->
+          <div>
+            <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:0.4rem;">
+              학습지 블록 순서 (클릭 시 학생 화면 이동)
+            </div>
+            <div class="block-nav-list" id="teacher-block-nav">
+              <!-- JS로 렌더링 -->
+            </div>
+          </div>
+
+          <!-- 실시간 응답 수합 현황 (교사용: 실명 표시) -->
+          <div style="flex:1; display:flex; flex-direction:column; border-top:1px solid var(--border); padding-top:0.75rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+              <span style="font-size:0.85rem; font-weight:700;">
+                현재 블록 학생 응답 피드 <span style="color:var(--danger); font-size:0.75rem;">(선생님 전용: 실명 확인)</span>
+              </span>
+              <span id="response-count" style="font-size:0.75rem; color:var(--text-muted);">총 4건 수합</span>
+            </div>
+            <div class="response-feed" id="teacher-response-feed">
+              <!-- 피드 내용 -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 오른쪽 패널: 학생 참여 화면 (노트북/태블릿 화면) -->
+      <div class="split-pane">
+        <div class="pane-header">
+          <div class="pane-title">
+            <span class="badge-role badge-student">학생 참여 화면</span>
+            <span style="font-size:0.85rem; color:var(--text-muted);">10301 김철수 (별명: 밤하늘별빛)</span>
+          </div>
+          <div id="student-mode-badge" style="font-size:0.75rem; background:#fee2e2; color:#b91c1c; padding:0.2rem 0.5rem; border-radius:4px; font-weight:600;">
+            🔒 교사 화면 동기화 중
+          </div>
+        </div>
+
+        <div class="pane-body">
+          <!-- 학생 상단 상태 바 -->
+          <div class="student-status-bar">
+            <span>진행 상황: <strong id="student-step-indicator">1 / 5 단계</strong></span>
+            <div id="student-nav-buttons" style="display:none; gap:0.4rem;">
+              <button class="btn btn-outline btn-sm" onclick="studentNavigate(-1)">◀ 이전</button>
+              <button class="btn btn-outline btn-sm" onclick="studentNavigate(1)">다음 ▶</button>
+            </div>
+          </div>
+
+          <!-- 현재 활성화된 블록 렌더링 영역 -->
+          <div class="active-block-container" id="student-block-render">
+            <!-- JS 동적 렌더링 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 한글/PDF 업로드 변환 모달 -->
+  <div class="modal-overlay" id="upload-modal">
+    <div class="modal-box">
+      <h3 class="modal-title">📄 한글(HWP) → PDF 라이브 학습지 변환기</h3>
+      <p class="modal-desc">
+        한글 프로그램에서 평소처럼 만든 학습지를 <strong>[파일 → PDF로 저장]</strong>한 뒤 업로드해 주세요.
+        AI가 지문, 생각 발문, 퀴즈를 자동으로 분류하여 라이브 학습지 블록으로 조립합니다.
+      </p>
+
+      <div class="dropzone" onclick="simulatePdfUpload()">
+        <div style="font-size:2.5rem; margin-bottom:0.5rem;">📂</div>
+        <div style="font-weight:700; font-size:1rem; margin-bottom:0.25rem;">여기를 클릭하거나 PDF 파일을 끌어다 놓으세요</div>
+        <div style="font-size:0.8rem; color:var(--text-muted);">지원 형식: PDF (한글 2020/2024에서 내보낸 PDF 권장)</div>
+      </div>
+
+      <div id="upload-progress" style="display:none; margin-top:1.25rem; background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:1rem;">
+        <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:600; margin-bottom:0.5rem;">
+          <span id="parse-status-text">PDF 텍스트 구조 분석 중...</span>
+          <span id="parse-percent">30%</span>
+        </div>
+        <div style="background:#e2e8f0; height:8px; border-radius:4px; overflow:hidden;">
+          <div id="parse-bar" style="background:var(--primary); height:100%; width:30%; transition:width 0.3s;"></div>
+        </div>
+        <div id="parse-detected-blocks" style="margin-top:0.75rem; font-size:0.8rem; color:var(--text-muted); display:flex; gap:0.4rem; flex-wrap:wrap;">
+          <!-- 감지된 블록 칩들 -->
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+        <button class="btn btn-outline" onclick="closeUploadModal()">닫기</button>
+        <button class="btn btn-primary" id="btn-finish-upload" style="display:none;" onclick="finishUploadAndStart()">
+          변환 완료! 학습지 열기 →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 수업 요약 리포트 모달 (PDF/인쇄용 1장) -->
+  <div class="modal-overlay" id="report-modal">
+    <div class="modal-box" style="max-width:700px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid var(--text); padding-bottom:0.75rem; margin-bottom:1rem;">
+        <div>
+          <span style="font-size:0.8rem; font-weight:700; color:var(--primary);">2026학년도 1학기 국어과 수업 결과 보고서</span>
+          <h2 style="font-size:1.35rem; font-weight:800; margin-top:0.2rem;">윤동주 &lt;쉽게 씌어진 시&gt; 라이브 학습지 요약 리포트</h2>
+          <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
+            일시: 2026. 11. 06. 1교시 | 대상: 1학년 3반 (참여 4명) | 지도교사: 김예랑
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:1.25rem;">
+        <!-- 1. 핵심 키워드 워드클라우드 -->
+        <div style="background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:1rem;">
+          <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:0.5rem;">☁️ 오늘 학생들이 가장 많이 꼽은 핵심 시어</h4>
+          <div class="wordcloud-container" style="min-height:90px;" id="report-wordcloud">
+            <!-- 리포트용 단어들 -->
+          </div>
+        </div>
+
+        <!-- 2. 찬반 투표 결과 -->
+        <div style="background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:1rem;">
+          <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:0.5rem;">📊 실시간 설문 결과: "시대의 어둠 속 지식인의 고뇌에 공감하는가?"</h4>
+          <div style="display:flex; gap:1rem; align-items:center; margin-top:0.5rem;">
+            <div style="flex:1;">
+              <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:600; margin-bottom:0.25rem;">
+                <span>깊이 공감한다 (자아 성찰)</span>
+                <span id="report-poll-agree">75% (3명)</span>
+              </div>
+              <div style="background:#e2e8f0; height:12px; border-radius:6px; overflow:hidden;">
+                <div style="background:var(--primary); height:100%; width:75%;"></div>
+              </div>
+            </div>
+            <div style="flex:1;">
+              <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:600; margin-bottom:0.25rem;">
+                <span>답답하게 느껴진다 (소극적 저항)</span>
+                <span id="report-poll-disagree">25% (1명)</span>
+              </div>
+              <div style="background:#e2e8f0; height:12px; border-radius:6px; overflow:hidden;">
+                <div style="background:var(--accent); height:100%; width:25%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 학생들이 뽑은 베스트 생각 카드 -->
+        <div style="background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:1rem;">
+          <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:0.5rem;">❤️ 친구들의 가장 많은 공감(하트)을 받은 생각</h4>
+          <div id="report-best-thoughts" style="display:flex; flex-direction:column; gap:0.5rem;">
+            <!-- 베스트 생각 목록 -->
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; margin-top:1.5rem;">
+        <button class="btn btn-outline" onclick="closeReportModal()">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 하단 상태 및 저작권 푸터 -->
+  <footer>
+    <div class="footer-version">Live Worksheet v0.1.0 (Local Prototype)</div>
+    <div>학생 개인정보는 외부 서버에 전송되지 않으며, 교사 로컬 브라우저에서 안전하게 처리됩니다.</div>
+    <div>© 2026 Live Worksheet. All rights reserved.</div>
+  </footer>
+
+  <!-- 인라인 스크립트: 데이터 및 실시간 동작 엔진 -->
+  <script>
+    // 1. 학습지 데이터 모델 정의 (윤동주 시 수업 예시)
+    const currentWorksheet = {
+      id: 'ws-dongju',
+      title: '윤동주, <쉽게 씌어진 시> 탐구와 자기 성찰',
+      grade: '고등학교 1학년 국어',
+      blocks: [
+        {
+          id: 'b1',
+          type: 'passage',
+          title: '1. 작품 본문 감상 및 시어 탐색',
+          badge: '지문 해설',
+          content: `창 밖에 밤비가 속살거려
+육첩방(六疊房)은 남의 나라,
+
+시인이란 슬픈 천명(天命)인 줄 알면서도
+한 줄 시를 적어 볼까,
+
+땀내와 사랑내 포근히 품긴
+보내 주신 학비 봉투를 받아
+
+대학 노-트를 끼고
+늙은 교수의 강의를 들으러 간다.
+
+생각해 보면 어린 때 동무들
+하나, 둘, 죄다 잃어버리고
+
+나는 무얼 바라
+나는 다만, 홀로 침전(沈澱)하는 것일까?`,
+          vocab: {
+            '육첩방': '다다미 6장을 깐 방으로, 일본 유학 중 겪는 이국적이고 답답한 공간',
+            '천명': '타고난 슬픈 운명',
+            '침전': '밑바닥으로 무겁게 가라앉는다는 뜻으로 화자의 무력감 표현'
+          }
+        },
+        {
+          id: 'b2',
+          type: 'thought',
+          title: '2. 시 속 화자의 마음에 공감하며 생각 적기',
+          badge: '실시간 생각 적기',
+          question: '화자가 "나는 무얼 바라 홀로 침전하는 것일까?"라고 자문할 때 느꼈을 감정은 무엇이었을까요? 내 삶에서 무기력함을 느꼈던 경험과 연결지어 짧게 적어봅시다.',
+          placeholder: '솔직한 내 생각을 한 문장 이상 적어보세요. (친구들에게는 익명으로 공유됩니다)'
+        },
+        {
+          id: 'b3',
+          type: 'wordcloud',
+          title: '3. 시를 읽고 떠오르는 핵심 키워드 1단어',
+          badge: '워드클라우드',
+          question: '이 시 전체를 관통하는 가장 인상 깊은 단어 하나를 적어주세요.'
+        },
+        {
+          id: 'b4',
+          type: 'poll',
+          title: '4. 실시간 가치 탐구 설문',
+          badge: '찬반 투표',
+          question: '화자처럼 펜을 들고 시를 쓰는 행위는 시대의 어둠에 맞서는 진정한 저항일까요, 아니면 소극적인 위안일까요?',
+          options: [
+            { id: 'opt1', text: '부끄러움을 아는 진정한 내면적 저항이다' },
+            { id: 'opt2', text: '행동하지 못하는 지식인의 안타까운 한계이다' }
+          ]
+        },
+        {
+          id: 'b5',
+          type: 'quiz',
+          title: '5. 핵심 원리 확인 OX 퀴즈',
+          badge: '실시간 퀴즈',
+          question: '이 시의 결말에서 두 자아(성찰하는 자아와 현실적 자아)는 영원히 화해하지 못하고 갈등을 멈추지 않는다.',
+          answer: false,
+          explanation: 'X입니다! 마지막 연에서 화자는 두 자아가 "최초의 악수"를 나누며 화해와 극복의 의지를 다집니다.'
+        }
+      ]
+    };
+
+    // 실시간 상태 관리
+    let activeBlockIndex = 0;
+    let isFreePaced = false; // false: 교사 동기화, true: 학생 자율 이동
+
+    // 로컬 탭 간 통신 채널 (BroadcastChannel)
+    const channel = new BroadcastChannel('live-worksheet-sync');
+
+    // 학생 응답 저장소 (로컬 메모리)
+    let responses = [
+      {
+        id: 'r1',
+        blockId: 'b2',
+        studentNo: '10301',
+        studentName: '김철수',
+        nickname: '밤하늘별빛',
+        text: '남들은 앞으로 나아가는데 나만 멈춰 서 있는 듯한 답답함과 부끄러움이었을 것 같아요.',
+        likes: 3
+      },
+      {
+        id: 'r2',
+        blockId: 'b2',
+        studentNo: '10302',
+        studentName: '이영희',
+        nickname: '청포도한알',
+        text: '시험 기간에 공부가 손에 안 잡히고 자책만 들던 때의 제 모습이 겹쳐 보여 마음이 아팠습니다.',
+        likes: 5
+      },
+      {
+        id: 'r3',
+        blockId: 'b2',
+        studentNo: '10303',
+        studentName: '박민수',
+        nickname: '새벽자전거',
+        text: '어려운 상황에서도 자신을 정직하게 마주보는 용기가 대단하다고 생각해요.',
+        likes: 2
+      }
+    ];
+
+    // 워드클라우드 빈도 데이터
+    let wordCounts = {
+      '부끄러움': 6,
+      '성찰': 5,
+      '밤비': 4,
+      '침전': 3,
+      '등불': 5,
+      '악수': 2,
+      '시대': 3,
+      '자아': 4
+    };
+
+    // 투표 데이터
+    let pollResults = {
+      opt1: 3,
+      opt2: 1
+    };
+
+    // 초기화
+    window.addEventListener('DOMContentLoaded', () => {
+      renderTeacherBlockNav();
+      renderTeacherResponseFeed();
+      renderStudentBlock();
+
+      // 채널 메시지 수신 (다른 탭과의 동기화)
+      channel.onmessage = (event) => {
+        const { type, payload } = event.data;
+        if (type === 'BLOCK_CHANGE') {
+          activeBlockIndex = payload.index;
+          renderTeacherBlockNav();
+          renderStudentBlock();
+          renderTeacherResponseFeed();
+        } else if (type === 'MODE_CHANGE') {
+          isFreePaced = payload.isFreePaced;
+          updateModeUI();
+        } else if (type === 'NEW_RESPONSE') {
+          responses.push(payload);
+          renderTeacherResponseFeed();
+          if (currentWorksheet.blocks[activeBlockIndex].id === 'b2') {
+            renderStudentBlock();
+          }
+        } else if (type === 'LIKE_CHANGE') {
+          const item = responses.find(r => r.id === payload.id);
+          if (item) item.likes = payload.likes;
+          renderStudentBlock();
+        }
+      };
+    });
+
+    // 화면 전환
+    function switchView(viewName) {
+      document.getElementById('view-deck').style.display = viewName === 'deck' ? 'flex' : 'none';
+      document.getElementById('view-demo').style.display = viewName === 'demo' ? 'flex' : 'none';
+      document.getElementById('btn-view-deck').classList.toggle('active', viewName === 'deck');
+      document.getElementById('btn-view-demo').classList.toggle('active', viewName === 'demo');
+    }
+
+    function startLiveDemo(wsId) {
+      switchView('demo');
+    }
+
+    // 모드 전환 (교사 동기화 vs 학생 자율)
+    function togglePacingMode(checked) {
+      isFreePaced = checked;
+      channel.postMessage({ type: 'MODE_CHANGE', payload: { isFreePaced } });
+      updateModeUI();
+    }
+
+    function updateModeUI() {
+      const label = document.getElementById('mode-label');
+      const badge = document.getElementById('student-mode-badge');
+      const navBtns = document.getElementById('student-nav-buttons');
+      const toggle = document.getElementById('mode-toggle');
+
+      toggle.checked = isFreePaced;
+
+      if (isFreePaced) {
+        label.textContent = '자율 탐구 모드 (학생 자유 이동)';
+        label.style.color = 'var(--secondary)';
+        badge.textContent = '🔓 자율 탐구 모드 (앞뒤 이동 가능)';
+        badge.style.background = '#dcfce7';
+        badge.style.color = '#15803d';
+        navBtns.style.display = 'flex';
+      } else {
+        label.textContent = '강제 동기화 (교사 주도 집중)';
+        label.style.color = 'var(--primary-dark)';
+        badge.textContent = '🔒 교사 화면 동기화 중';
+        badge.style.background = '#fee2e2';
+        badge.style.color = '#b91c1c';
+        navBtns.style.display = 'none';
+      }
+    }
+
+    // 교사 블록 목록 렌더링
+    function renderTeacherBlockNav() {
+      const container = document.getElementById('teacher-block-nav');
+      container.innerHTML = '';
+
+      currentWorksheet.blocks.forEach((block, idx) => {
+        const item = document.createElement('div');
+        item.className = `block-nav-item ${idx === activeBlockIndex ? 'active' : ''}`;
+        item.innerHTML = `
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <span style="font-size:0.75rem; background:#f1f5f9; padding:0.15rem 0.4rem; border-radius:4px; font-weight:700;">${idx + 1}</span>
+            <span style="font-size:0.85rem;">${block.title}</span>
+          </div>
+          <span style="font-size:0.75rem; color:var(--text-muted);">${block.badge}</span>
+        `;
+        item.onclick = () => {
+          activeBlockIndex = idx;
+          channel.postMessage({ type: 'BLOCK_CHANGE', payload: { index: idx } });
+          renderTeacherBlockNav();
+          renderStudentBlock();
+          renderTeacherResponseFeed();
+        };
+        container.appendChild(item);
+      });
+    }
+
+    // 교사용 실시간 응답 피드 렌더링 (실명 포함)
+    function renderTeacherResponseFeed() {
+      const container = document.getElementById('teacher-response-feed');
+      const currentBlock = currentWorksheet.blocks[activeBlockIndex];
+      container.innerHTML = '';
+
+      const relevant = responses.filter(r => r.blockId === currentBlock.id);
+      document.getElementById('response-count').textContent = `수합 ${relevant.length}건`;
+
+      if (relevant.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--text-muted); font-size:0.85rem;">아직 수합된 학생 응답이 없습니다.</div>`;
+        return;
+      }
+
+      relevant.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'feed-card';
+        card.innerHTML = `
+          <div class="feed-author">
+            <span class="author-realname">${r.studentNo} ${r.studentName} <span style="font-weight:normal; color:#94a3b8;">(${r.nickname})</span></span>
+            <span>❤️ ${r.likes}</span>
+          </div>
+          <div style="color:#334155; line-height:1.4;">${r.text}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 학생 화면 블록 렌더링
+    function renderStudentBlock() {
+      const container = document.getElementById('student-block-render');
+      const block = currentWorksheet.blocks[activeBlockIndex];
+      document.getElementById('student-step-indicator').textContent = `${activeBlockIndex + 1} / ${currentWorksheet.blocks.length} 단계`;
+
+      let html = `
+        <span class="block-badge">${block.badge}</span>
+        <h3 class="block-title">${block.title}</h3>
+      `;
+
+      if (block.type === 'passage') {
+        html += `
+          <div class="passage-box">
+            ${block.content.replace('육첩방', '<span class="vocab-tip" title="다다미 6장을 깐 방 (일본 유학의 억압적 공간)">육첩방</span>')
+                          .replace('천명', '<span class="vocab-tip" title="피할 수 없는 슬픈 운명">천명</span>')
+                          .replace('침전', '<span class="vocab-tip" title="무기력하게 바닥으로 가라앉음">침전</span>')}
+          </div>
+          <div style="background:#f8fafc; border-radius:6px; padding:0.6rem 0.85rem; font-size:0.8rem; color:var(--text-muted);">
+            💡 밑줄 친 어휘에 마우스를 올리면 국어사전 해설이 나타납니다.
+          </div>
+        `;
+      } else if (block.type === 'thought') {
+        html += `
+          <p style="font-size:0.9rem; margin-bottom:0.75rem; color:#475569; line-height:1.5;">${block.question}</p>
+          <div class="thought-input-area">
+            <textarea class="thought-textarea" id="student-thought-input" placeholder="${block.placeholder}"></textarea>
+            <div style="display:flex; justify-content:flex-end;">
+              <button class="btn btn-primary btn-sm" onclick="submitStudentThought()">생각 제출하기 🚀</button>
+            </div>
+          </div>
+          
+          <div style="border-top:1px solid var(--border); padding-top:1rem; margin-top:1rem;">
+            <div style="font-size:0.85rem; font-weight:700; margin-bottom:0.5rem; display:flex; justify-content:space-between;">
+              <span>친구들의 생각 보드 (익명 공유)</span>
+              <span style="font-size:0.75rem; color:var(--text-muted);">공감되는 생각에 하트를 눌러보세요!</span>
+            </div>
+            <div class="peer-thoughts-grid" id="peer-thoughts-container">
+              ${responses.filter(r => r.blockId === block.id).map(r => `
+                <div class="peer-card">
+                  <div>
+                    <div class="peer-nick">익명 · ${r.nickname}</div>
+                    <div class="peer-text">${r.text}</div>
+                  </div>
+                  <button class="like-btn" onclick="toggleLike('${r.id}')">
+                    ❤️ <span>${r.likes}</span>
+                  </button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } else if (block.type === 'wordcloud') {
+        html += `
+          <p style="font-size:0.9rem; margin-bottom:0.75rem; color:#475569;">${block.question}</p>
+          <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+            <input type="text" id="wc-input" placeholder="핵심 단어 입력 (예: 부끄러움)" style="flex:1; padding:0.5rem; border:1px solid var(--border); border-radius:6px; font-size:0.9rem;">
+            <button class="btn btn-primary btn-sm" onclick="submitWord()">단어 등록</button>
+          </div>
+          <div class="wordcloud-container">
+            ${Object.entries(wordCounts).map(([w, count]) => {
+              const size = Math.min(2.2, 0.9 + count * 0.22);
+              const colors = ['#2563eb', '#0d9488', '#d97706', '#7c3aed', '#dc2626'];
+              const color = colors[w.length % colors.length];
+              return `<span class="wc-word" style="font-size:${size}rem; color:${color};">${w}</span>`;
+            }).join('')}
+          </div>
+        `;
+      } else if (block.type === 'poll') {
+        html += `
+          <p style="font-size:0.9rem; margin-bottom:0.75rem; color:#475569; font-weight:600;">${block.question}</p>
+          <div class="poll-options">
+            ${block.options.map((opt, i) => {
+              const total = pollResults.opt1 + pollResults.opt2;
+              const count = pollResults[opt.id] || 0;
+              const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+              return `
+                <div class="poll-opt-btn" onclick="votePoll('${opt.id}')">
+                  <div class="poll-bar" style="width:${pct}%;"></div>
+                  <span class="poll-opt-text">${i + 1}. ${opt.text}</span>
+                  <span class="poll-opt-count">${pct}% (${count}명)</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      } else if (block.type === 'quiz') {
+        html += `
+          <p style="font-size:1rem; margin-bottom:1rem; color:#1e293b; font-weight:700;">${block.question}</p>
+          <div style="display:flex; gap:1rem; margin-bottom:1rem;">
+            <button class="btn btn-outline" style="flex:1; padding:1.25rem; font-size:1.5rem; font-weight:800;" onclick="submitQuiz(true)">⭕ O</button>
+            <button class="btn btn-outline" style="flex:1; padding:1.25rem; font-size:1.5rem; font-weight:800;" onclick="submitQuiz(false)">❌ X</button>
+          </div>
+          <div id="quiz-result-box" style="display:none; background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:1rem;"></div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    // 학생 생각 제출
+    function submitStudentThought() {
+      const input = document.getElementById('student-thought-input');
+      const val = input.value.trim();
+      if (!val) {
+        alert('생각을 한 문장 이상 작성해 주세요!');
+        return;
+      }
+
+      const newResp = {
+        id: 'r_' + Date.now(),
+        blockId: 'b2',
+        studentNo: '10301',
+        studentName: '김철수',
+        nickname: '밤하늘별빛',
+        text: val,
+        likes: 0
+      };
+
+      responses.push(newResp);
+      channel.postMessage({ type: 'NEW_RESPONSE', payload: newResp });
+      input.value = '';
+      renderStudentBlock();
+      renderTeacherResponseFeed();
+    }
+
+    // 친구 생각 공감(하트) 누르기
+    function toggleLike(respId) {
+      const item = responses.find(r => r.id === respId);
+      if (item) {
+        item.likes += 1;
+        channel.postMessage({ type: 'LIKE_CHANGE', payload: { id: respId, likes: item.likes } });
+        renderStudentBlock();
+      }
+    }
+
+    // 워드클라우드 단어 등록
+    function submitWord() {
+      const input = document.getElementById('wc-input');
+      const word = input.value.trim();
+      if (!word) return;
+      wordCounts[word] = (wordCounts[word] || 0) + 1;
+      input.value = '';
+      renderStudentBlock();
+    }
+
+    // 투표 참여
+    function votePoll(optId) {
+      pollResults[optId] = (pollResults[optId] || 0) + 1;
+      renderStudentBlock();
+    }
+
+    // 퀴즈 제출
+    function submitQuiz(userChoice) {
+      const block = currentWorksheet.blocks[activeBlockIndex];
+      const isCorrect = userChoice === block.answer;
+      const box = document.getElementById('quiz-result-box');
+      box.style.display = 'block';
+      box.innerHTML = `
+        <div style="font-weight:700; font-size:1rem; color:${isCorrect ? 'var(--secondary)' : 'var(--danger)'}; margin-bottom:0.4rem;">
+          ${isCorrect ? '🎉 정답입니다!' : '🤔 아쉽지만 오답입니다!'}
+        </div>
+        <div style="font-size:0.85rem; color:#475569; line-height:1.5;">${block.explanation}</div>
+      `;
+    }
+
+    // 학생 자율 이동
+    function studentNavigate(delta) {
+      if (!isFreePaced) return;
+      const nextIdx = activeBlockIndex + delta;
+      if (nextIdx >= 0 && nextIdx < currentWorksheet.blocks.length) {
+        activeBlockIndex = nextIdx;
+        renderStudentBlock();
+      }
+    }
+
+    // 가상 학생 응답 시뮬레이션
+    function simulatePeerResponses() {
+      const dummy = [
+        { no: '10304', name: '최윤아', nick: '바람소리', text: '식민지 현실 속에서 무력한 자신을 반성하고 극복하려는 숭고한 의지라고 느꼈어요.' },
+        { no: '10305', name: '정동원', nick: '달빛사냥', text: '지금 우리도 학업에 지칠 때가 많은데 화자의 솔직한 독백에 큰 위로를 받았습니다.' },
+        { no: '10306', name: '한지민', nick: '맑은시내', text: '육첩방이라는 좁은 방에서 시를 쓰는 행위 자체가 희망의 끈을 놓지 않는 몸부림 같습니다.' }
+      ];
+
+      dummy.forEach(d => {
+        const item = {
+          id: 'r_sim_' + Math.random().toString(36).substr(2, 6),
+          blockId: 'b2',
+          studentNo: d.no,
+          studentName: d.name,
+          nickname: d.nick,
+          text: d.text,
+          likes: Math.floor(Math.random() * 4)
+        };
+        responses.push(item);
+        channel.postMessage({ type: 'NEW_RESPONSE', payload: item });
+      });
+
+      renderTeacherResponseFeed();
+      if (currentWorksheet.blocks[activeBlockIndex].id === 'b2') {
+        renderStudentBlock();
+      }
+    }
+
+    // 엑셀/구글 시트(CSV) 내보내기 (세특용)
+    function exportToCSV() {
+      let csvContent = '\uFEFF학번,이름,블록유형,제출내용,공감수\n';
+      responses.forEach(r => {
+        csvContent += `"${r.studentNo}","${r.studentName}","생각적기","${r.text.replace(/"/g, '""')}","${r.likes}"\n`;
+      });
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `윤동주_학습지_응답데이터_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // 업로드 모달 제어
+    function openUploadModal() {
+      document.getElementById('upload-modal').classList.add('active');
+    }
+    function closeUploadModal() {
+      document.getElementById('upload-modal').classList.remove('active');
+    }
+
+    // PDF 파싱 시뮬레이션
+    function simulatePdfUpload() {
+      const progress = document.getElementById('upload-progress');
+      const bar = document.getElementById('parse-bar');
+      const text = document.getElementById('parse-status-text');
+      const percent = document.getElementById('parse-percent');
+      const detected = document.getElementById('parse-detected-blocks');
+      const finishBtn = document.getElementById('btn-finish-upload');
+
+      progress.style.display = 'block';
+      bar.style.width = '30%';
+      text.textContent = '한글(PDF) 문서 구조 및 지문 영역 인식 중...';
+      percent.textContent = '35%';
+
+      setTimeout(() => {
+        bar.style.width = '70%';
+        text.textContent = '문항 발문 파싱 및 인터랙티브 블록 매핑 중...';
+        percent.textContent = '75%';
+        detected.innerHTML = `
+          <span class="block-chip">📖 지문 (1문단~6문단)</span>
+          <span class="block-chip">💭 서술형 물음 2개</span>
+          <span class="block-chip">📊 찬반 토의 문항</span>
+        `;
+      }, 700);
+
+      setTimeout(() => {
+        bar.style.width = '100%';
+        text.textContent = '라이브 학습지 변환 완료!';
+        percent.textContent = '100%';
+        finishBtn.style.display = 'inline-block';
+      }, 1400);
+    }
+
+    function finishUploadAndStart() {
+      closeUploadModal();
+      startLiveDemo('ws-dongju');
+    }
+
+    // 리포트 모달 제어
+    function openReportModal() {
+      const modal = document.getElementById('report-modal');
+      const wc = document.getElementById('report-wordcloud');
+      const best = document.getElementById('report-best-thoughts');
+
+      // 워드클라우드
+      wc.innerHTML = Object.entries(wordCounts).map(([w, c]) => {
+        const size = Math.min(2.0, 0.9 + c * 0.2);
+        return `<span style="font-size:${size}rem; font-weight:800; color:#2563eb; margin:0.3rem;">${w}</span>`;
+      }).join(' ');
+
+      // 베스트 생각 상위 2개
+      const sorted = [...responses].sort((a,b) => b.likes - a.likes).slice(0, 2);
+      best.innerHTML = sorted.map(r => `
+        <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; padding:0.6rem 0.85rem; font-size:0.85rem;">
+          <div style="font-weight:700; color:#0369a1; font-size:0.75rem; margin-bottom:0.2rem;">
+            익명 (${r.nickname}) · ❤️ ${r.likes}명 공감
+          </div>
+          <div>${r.text}</div>
+        </div>
+      `).join('');
+
+      modal.classList.add('active');
+    }
+
+    function closeReportModal() {
+      document.getElementById('report-modal').classList.remove('active');
+    }
+
+    function openNewWindow(role) {
+      window.open(window.location.href, '_blank', 'width=480,height=800');
+    }
+  </script>
+</body>
+</html>
