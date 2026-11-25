@@ -10,6 +10,7 @@
       --primary-light: #eff6ff;
       --primary-dark: #1d4ed8;
       --secondary: #0d9488;
+      --secondary-light: #f0fdfa;
       --accent: #f59e0b;
       --danger: #ef4444;
       --bg: #f8fafc;
@@ -111,6 +112,9 @@
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
     }
 
     .view-btn.active {
@@ -128,7 +132,55 @@
       margin: 0 auto;
     }
 
-    /* 1. 첫 화면: 학습지 보관함 (Worksheet Deck) */
+    /* 공통 버튼 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: #0f766e;
+    }
+
+    .btn-outline {
+      background: white;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .btn-sm {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+      border-radius: 6px;
+    }
+
+    /* =========================================
+       1. 첫 화면: 학습지 보관함 (Worksheet Deck)
+       ========================================= */
     #view-deck {
       display: flex;
       flex-direction: column;
@@ -153,46 +205,9 @@
       margin-top: 0.25rem;
     }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.6rem 1.1rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: all 0.2s ease;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-outline {
-      background: white;
-      border-color: var(--border);
-      color: var(--text);
-    }
-    .btn-outline:hover {
-      background: #f8fafc;
-      border-color: #cbd5e1;
-    }
-
-    .btn-sm {
-      padding: 0.35rem 0.75rem;
-      font-size: 0.8rem;
-      border-radius: 6px;
-    }
-
     .worksheet-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
       gap: 1.25rem;
     }
 
@@ -260,14 +275,142 @@
       gap: 0.25rem;
     }
 
-    .card-actions {
-      display: flex;
+    .card-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 0.5rem;
       border-top: 1px solid #f1f5f9;
       padding-top: 1rem;
     }
 
-    /* 2. 시연 뷰 (Dual Split View) */
+    .card-action-full {
+      grid-column: span 2;
+    }
+
+    /* =========================================
+       2. 학생 전용 단독 화면 (Student Standalone View)
+       ========================================= */
+    #view-student {
+      display: none;
+      max-width: 800px;
+      margin: 0 auto;
+      width: 100%;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .student-header-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .student-user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .student-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #e0f2fe;
+      color: #0284c7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .student-name-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .student-nick-tag {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .sync-status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+    }
+    .status-locked {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+    .status-free {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    /* =========================================
+       3. 교사 전용 단독 화면 (Teacher Standalone View)
+       ========================================= */
+    #view-teacher {
+      display: none;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .teacher-top-dashboard {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .teacher-layout-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 1.25rem;
+      min-height: calc(100vh - 240px);
+    }
+
+    .teacher-sidebar {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .teacher-main-panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* =========================================
+       4. 분할 시연 뷰 (Dual Split View)
+       ========================================= */
     #view-demo {
       display: none;
       height: calc(100vh - 125px);
@@ -320,19 +463,7 @@
       gap: 1rem;
     }
 
-    /* 교사 컨트롤 패널 */
-    .teacher-controls {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.85rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
+    /* 토글 스위치 */
     .pacing-toggle-wrap {
       display: flex;
       align-items: center;
@@ -359,6 +490,7 @@
     input:checked + .slider { background-color: var(--secondary); }
     input:checked + .slider:before { transform: translateX(20px); }
 
+    /* 블록 네비게이션 아이템 */
     .block-nav-list {
       display: flex;
       flex-direction: column;
@@ -392,7 +524,7 @@
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
-      max-height: 250px;
+      max-height: 320px;
       overflow-y: auto;
     }
 
@@ -421,8 +553,8 @@
     .student-status-bar {
       background: #f1f5f9;
       border-radius: 8px;
-      padding: 0.5rem 0.85rem;
-      font-size: 0.8rem;
+      padding: 0.6rem 1rem;
+      font-size: 0.85rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -432,8 +564,8 @@
     .active-block-container {
       background: white;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.25rem;
+      border-radius: var(--radius);
+      padding: 1.5rem;
       box-shadow: var(--shadow-sm);
     }
 
@@ -449,19 +581,19 @@
     }
 
     .block-title {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       font-weight: 700;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
     }
 
     /* 지문 박스 */
     .passage-box {
       background: #fbfbfe;
       border-left: 4px solid var(--primary);
-      padding: 1rem 1.25rem;
+      padding: 1.25rem 1.5rem;
       border-radius: 0 8px 8px 0;
-      line-height: 1.8;
-      font-size: 0.95rem;
+      line-height: 1.9;
+      font-size: 1rem;
       margin-bottom: 1rem;
       white-space: pre-line;
       color: #334155;
@@ -485,11 +617,11 @@
 
     .thought-textarea {
       width: 100%;
-      height: 80px;
+      height: 90px;
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 0.75rem;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       resize: vertical;
     }
     .thought-textarea:focus {
@@ -500,7 +632,7 @@
     /* 친구들의 생각 카드 (익명 + 하트) */
     .peer-thoughts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 0.75rem;
       margin-top: 1rem;
     }
@@ -557,7 +689,7 @@
     .poll-options {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.6rem;
       margin-top: 0.75rem;
     }
 
@@ -565,9 +697,9 @@
       background: white;
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 0.75rem 1rem;
+      padding: 0.85rem 1.1rem;
       text-align: left;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       cursor: pointer;
       position: relative;
       overflow: hidden;
@@ -597,8 +729,8 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      gap: 1rem;
-      min-height: 140px;
+      gap: 1.25rem;
+      min-height: 160px;
     }
 
     .wc-word {
@@ -676,26 +808,42 @@
     .footer-version {
       font-weight: 600;
     }
+
+    /* 반응형 레이아웃 */
+    @media (max-width: 900px) {
+      .teacher-layout-grid {
+        grid-template-columns: 1fr;
+      }
+      #view-demo {
+        flex-direction: column;
+        height: auto;
+      }
+      .split-pane {
+        min-height: 500px;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- 상단 네비게이션 헤더 -->
-  <header>
+  <header id="main-header">
     <div class="brand" onclick="switchView('deck')">
       <div class="brand-logo">L</div>
       <div>
         <div style="display:flex; align-items:center; gap:0.4rem;">
           <span class="brand-title">라이브 학습지</span>
-          <span class="brand-badge">국어과 에디션</span>
+          <span class="brand-badge" id="header-badge">국어과 에디션</span>
         </div>
       </div>
     </div>
 
-    <div class="header-nav">
+    <div class="header-nav" id="header-nav">
       <div class="view-switcher">
-        <button class="view-btn active" id="btn-view-deck" onclick="switchView('deck')">📚 학습지 보관함</button>
-        <button class="view-btn" id="btn-view-demo" onclick="switchView('demo')">⚡ 실시간 분할 시연 뷰</button>
+        <button class="view-btn active" id="btn-view-deck" onclick="switchView('deck')">📚 보관함</button>
+        <button class="view-btn" id="btn-view-teacher" onclick="switchView('teacher')">👨‍🏫 교사용 화면</button>
+        <button class="view-btn" id="btn-view-student" onclick="switchView('student')">📱 학생용 화면</button>
+        <button class="view-btn" id="btn-view-demo" onclick="switchView('demo')">⚡ 분할 시연</button>
       </div>
       <button class="btn btn-outline btn-sm" onclick="openNewWindow('student')">새 탭으로 학생창 열기 ↗</button>
     </div>
@@ -716,14 +864,14 @@
         </button>
       </div>
 
-      <!-- 객체 목록: 학습지 카드 목록이 첫 화면에 바로 나타남 -->
+      <!-- 객체 목록: 학습지 카드 목록 -->
       <div class="worksheet-grid" id="worksheet-list">
         <!-- 카드 1: 윤동주 시 수업 -->
         <div class="worksheet-card">
           <div>
             <div class="card-meta">
               <span class="tag-grade">고1 국어 · 문학</span>
-              <span class="card-date">2026-11-06 등록</span>
+              <span class="card-date">2026-11-26 등록</span>
             </div>
             <h3 class="card-title">윤동주, &lt;쉽게 씌어진 시&gt; — 시대의 어둠과 자아 성찰</h3>
             <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1rem; line-height:1.5;">
@@ -737,11 +885,16 @@
               <span class="block-chip">⏱️ OX 퀴즈</span>
             </div>
           </div>
-          <div class="card-actions">
-            <button class="btn btn-primary btn-sm" style="flex:1;" onclick="startLiveDemo('ws-dongju')">
-              ▶ 수업 시작 (실시간 시연)
+          <div class="card-actions-grid">
+            <button class="btn btn-primary btn-sm" onclick="switchView('teacher')">
+              👨‍🏫 교사용 대시보드 열기
             </button>
-            <button class="btn btn-outline btn-sm" onclick="alert('수정 기능 준비 중입니다.')">수정</button>
+            <button class="btn btn-secondary btn-sm" onclick="switchView('student')">
+              📱 학생용 화면 입장
+            </button>
+            <button class="btn btn-outline btn-sm card-action-full" onclick="switchView('demo')">
+              ⚡ 좌우 분할 시연 뷰 (교사/학생 동시 테스트)
+            </button>
           </div>
         </div>
 
@@ -750,7 +903,7 @@
           <div>
             <div class="card-meta">
               <span class="tag-grade">고2 독서 · 사회문화</span>
-              <span class="card-date">2026-11-05 등록</span>
+              <span class="card-date">2026-11-25 등록</span>
             </div>
             <h3 class="card-title">인공지능 윤리와 창작권 논쟁 (비문학 제재 분석)</h3>
             <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1rem; line-height:1.5;">
@@ -763,98 +916,198 @@
               <span class="block-chip">⏱️ 4지선다 퀴즈</span>
             </div>
           </div>
-          <div class="card-actions">
-            <button class="btn btn-primary btn-sm" style="flex:1;" onclick="startLiveDemo('ws-ai')">
-              ▶ 수업 시작 (실시간 시연)
+          <div class="card-actions-grid">
+            <button class="btn btn-primary btn-sm" onclick="switchView('teacher')">
+              👨‍🏫 교사용 대시보드 열기
             </button>
-            <button class="btn btn-outline btn-sm" onclick="alert('수정 기능 준비 중입니다.')">수정</button>
+            <button class="btn btn-secondary btn-sm" onclick="switchView('student')">
+              📱 학생용 화면 입장
+            </button>
+            <button class="btn btn-outline btn-sm card-action-full" onclick="switchView('demo')">
+              ⚡ 좌우 분할 시연 뷰 (교사/학생 동시 테스트)
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 2. 실시간 시연 뷰 (왼쪽: 교사 화면 / 오른쪽: 학생 화면) -->
+    <!-- =========================================
+         2. 교사용 전용 단독 화면 (Teacher Standalone)
+         ========================================= -->
+    <section id="view-teacher">
+      <div class="teacher-top-dashboard">
+        <div>
+          <span class="badge-role badge-teacher">교사 관리자 모드</span>
+          <h2 style="font-size:1.2rem; font-weight:800; margin-top:0.2rem;">윤동주 &lt;쉽게 씌어진 시&gt; 수업 대시보드</h2>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.25rem;">
+            참여 코드 PIN: <strong style="color:var(--primary); font-size:1rem;">7294</strong> | 현재 접속 학생: <strong>4명</strong>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:0.6rem; align-items:center;">
+          <div class="pacing-toggle-wrap" style="background:#f1f5f9; padding:0.4rem 0.8rem; border-radius:8px;">
+            <span>수업 진행 모드:</span>
+            <label class="switch">
+              <input type="checkbox" id="teacher-mode-toggle" onchange="togglePacingMode(this.checked)">
+              <span class="slider"></span>
+            </label>
+            <span id="teacher-mode-label" style="color:var(--primary-dark); font-weight:700;">강제 동기화 (교사 주도)</span>
+          </div>
+
+          <button class="btn btn-outline btn-sm" onclick="simulatePeerResponses()">
+            🤖 가상 학생 응답 (+3명)
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="exportToCSV()">
+            📥 구글 시트(CSV) 내보내기
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="openReportModal()">
+            📊 수업 요약 리포트
+          </button>
+        </div>
+      </div>
+
+      <div class="teacher-layout-grid">
+        <!-- 좌측: 블록 타임라인 목록 -->
+        <div class="teacher-sidebar">
+          <div style="font-size:0.9rem; font-weight:700; color:var(--text-muted);">
+            학습지 블록 순서 (클릭 시 학생 화면 강제 이동)
+          </div>
+          <div class="block-nav-list" id="teacher-standalone-nav">
+            <!-- JS 동적 렌더링 -->
+          </div>
+        </div>
+
+        <!-- 우측: 현재 블록 실시간 응답 피드 (실명 확인) -->
+        <div class="teacher-main-panel">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+            <div>
+              <span id="teacher-current-block-badge" class="block-badge">지문 해설</span>
+              <h3 id="teacher-current-block-title" style="font-size:1.1rem; font-weight:700;">1. 작품 본문 감상 및 시어 탐색</h3>
+            </div>
+            <span id="teacher-response-count" style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">총 4건 수합</span>
+          </div>
+
+          <div>
+            <div style="font-size:0.85rem; font-weight:700; margin-bottom:0.6rem; display:flex; justify-content:space-between;">
+              <span>학생 제출 응답 실시간 피드 <span style="color:var(--danger); font-size:0.75rem;">(선생님 전용: 학번/실명 표기)</span></span>
+            </div>
+            <div class="response-feed" id="teacher-standalone-feed" style="max-height:480px;">
+              <!-- JS 동적 렌더링 -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================
+         3. 학생 전용 단독 화면 (Student Standalone)
+         ========================================= -->
+    <section id="view-student">
+      <!-- 학생 상단 프로필 바 -->
+      <div class="student-header-card">
+        <div class="student-user-info">
+          <div class="student-avatar">김</div>
+          <div>
+            <div class="student-name-text">10301 김철수</div>
+            <div class="student-nick-tag">발언 닉네임: <strong>밤하늘별빛</strong></div>
+          </div>
+        </div>
+
+        <div id="student-standalone-sync-badge" class="sync-status-indicator status-locked">
+          🔒 선생님 화면 동기화 중
+        </div>
+      </div>
+
+      <!-- 진행 상황 및 자율 네비게이션 버튼 -->
+      <div class="student-status-bar">
+        <span>현재 단계: <strong id="student-standalone-step">1 / 5 단계</strong></span>
+        <div id="student-standalone-nav-btns" style="display:none; gap:0.4rem;">
+          <button class="btn btn-outline btn-sm" onclick="studentNavigate(-1)">◀ 이전</button>
+          <button class="btn btn-outline btn-sm" onclick="studentNavigate(1)">다음 ▶</button>
+        </div>
+      </div>
+
+      <!-- 학생 학습지 렌더링 컨테이너 -->
+      <div class="active-block-container" id="student-standalone-render">
+        <!-- JS 동적 렌더링 -->
+      </div>
+    </section>
+
+    <!-- =========================================
+         4. 분할 시연 뷰 (Dual Split View)
+         ========================================= -->
     <section id="view-demo">
       <!-- 왼쪽 패널: 교사 컨트롤러 -->
       <div class="split-pane">
         <div class="pane-header">
           <div class="pane-title">
             <span class="badge-role badge-teacher">교사 관리 화면</span>
-            <span id="demo-ws-title" style="font-size:0.9rem; font-weight:600;">윤동주 &lt;쉽게 씌어진 시&gt;</span>
+            <span style="font-size:0.9rem; font-weight:600;">윤동주 &lt;쉽게 씌어진 시&gt;</span>
           </div>
           <div style="display:flex; gap:0.5rem; align-items:center;">
-            <span style="font-size:0.8rem; color:var(--text-muted);">PIN: <strong>7294</strong> (접속 4명)</span>
-            <button class="btn btn-outline btn-sm" onclick="exportToCSV()">📥 구글 시트(CSV) 내보내기</button>
-            <button class="btn btn-primary btn-sm" onclick="openReportModal()">📊 수업 요약 리포트</button>
+            <span style="font-size:0.8rem; color:var(--text-muted);">PIN: <strong>7294</strong></span>
+            <button class="btn btn-outline btn-sm" onclick="exportToCSV()">CSV</button>
+            <button class="btn btn-primary btn-sm" onclick="openReportModal()">리포트</button>
           </div>
         </div>
 
         <div class="pane-body">
-          <!-- 상단 제어 바: 잠금/자율 모드 토글 -->
-          <div class="teacher-controls">
+          <div class="teacher-controls" style="background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:0.75rem; display:flex; justify-content:space-between; align-items:center;">
             <div class="pacing-toggle-wrap">
-              <span>수업 진행 모드:</span>
+              <span>수업 모드:</span>
               <label class="switch">
-                <input type="checkbox" id="mode-toggle" onchange="togglePacingMode(this.checked)">
+                <input type="checkbox" id="demo-mode-toggle" onchange="togglePacingMode(this.checked)">
                 <span class="slider"></span>
               </label>
-              <span id="mode-label" style="color:var(--primary-dark); font-weight:700;">강제 동기화 (교사 주도)</span>
+              <span id="demo-mode-label" style="color:var(--primary-dark); font-weight:700;">강제 동기화</span>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="simulatePeerResponses()">
-              🤖 가상 학생 응답 생성 (+3명)
-            </button>
+            <button class="btn btn-outline btn-sm" onclick="simulatePeerResponses()">+3명 생성</button>
           </div>
 
-          <!-- 블록 타임라인 목록 -->
           <div>
             <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:0.4rem;">
-              학습지 블록 순서 (클릭 시 학생 화면 이동)
+              블록 순서 (클릭 시 이동)
             </div>
-            <div class="block-nav-list" id="teacher-block-nav">
-              <!-- JS로 렌더링 -->
+            <div class="block-nav-list" id="demo-teacher-nav">
+              <!-- JS 렌더링 -->
             </div>
           </div>
 
-          <!-- 실시간 응답 수합 현황 (교사용: 실명 표시) -->
           <div style="flex:1; display:flex; flex-direction:column; border-top:1px solid var(--border); padding-top:0.75rem;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
-              <span style="font-size:0.85rem; font-weight:700;">
-                현재 블록 학생 응답 피드 <span style="color:var(--danger); font-size:0.75rem;">(선생님 전용: 실명 확인)</span>
-              </span>
-              <span id="response-count" style="font-size:0.75rem; color:var(--text-muted);">총 4건 수합</span>
+              <span style="font-size:0.85rem; font-weight:700;">학생 응답 (실명)</span>
+              <span id="demo-response-count" style="font-size:0.75rem; color:var(--text-muted);">4건</span>
             </div>
-            <div class="response-feed" id="teacher-response-feed">
-              <!-- 피드 내용 -->
+            <div class="response-feed" id="demo-teacher-feed">
+              <!-- JS 렌더링 -->
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 오른쪽 패널: 학생 참여 화면 (노트북/태블릿 화면) -->
+      <!-- 오른쪽 패널: 학생 참여 화면 -->
       <div class="split-pane">
         <div class="pane-header">
           <div class="pane-title">
             <span class="badge-role badge-student">학생 참여 화면</span>
-            <span style="font-size:0.85rem; color:var(--text-muted);">10301 김철수 (별명: 밤하늘별빛)</span>
+            <span style="font-size:0.85rem; color:var(--text-muted);">10301 김철수 (밤하늘별빛)</span>
           </div>
-          <div id="student-mode-badge" style="font-size:0.75rem; background:#fee2e2; color:#b91c1c; padding:0.2rem 0.5rem; border-radius:4px; font-weight:600;">
-            🔒 교사 화면 동기화 중
+          <div id="demo-student-badge" style="font-size:0.75rem; background:#fee2e2; color:#b91c1c; padding:0.2rem 0.5rem; border-radius:4px; font-weight:600;">
+            🔒 동기화 중
           </div>
         </div>
 
         <div class="pane-body">
-          <!-- 학생 상단 상태 바 -->
           <div class="student-status-bar">
-            <span>진행 상황: <strong id="student-step-indicator">1 / 5 단계</strong></span>
-            <div id="student-nav-buttons" style="display:none; gap:0.4rem;">
+            <span>진행 상황: <strong id="demo-student-step">1 / 5 단계</strong></span>
+            <div id="demo-student-nav-btns" style="display:none; gap:0.4rem;">
               <button class="btn btn-outline btn-sm" onclick="studentNavigate(-1)">◀ 이전</button>
               <button class="btn btn-outline btn-sm" onclick="studentNavigate(1)">다음 ▶</button>
             </div>
           </div>
 
-          <!-- 현재 활성화된 블록 렌더링 영역 -->
-          <div class="active-block-container" id="student-block-render">
-            <!-- JS 동적 렌더링 -->
+          <div class="active-block-container" id="demo-student-render">
+            <!-- JS 렌더링 -->
           </div>
         </div>
       </div>
@@ -907,7 +1160,7 @@
           <span style="font-size:0.8rem; font-weight:700; color:var(--primary);">2026학년도 1학기 국어과 수업 결과 보고서</span>
           <h2 style="font-size:1.35rem; font-weight:800; margin-top:0.2rem;">윤동주 &lt;쉽게 씌어진 시&gt; 라이브 학습지 요약 리포트</h2>
           <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
-            일시: 2026. 11. 06. 1교시 | 대상: 1학년 3반 (참여 4명) | 지도교사: 김예랑
+            일시: 2026. 11. 26. 1교시 | 대상: 1학년 3반 (참여 4명) | 지도교사: 김예랑
           </div>
         </div>
         <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
@@ -964,14 +1217,14 @@
 
   <!-- 하단 상태 및 저작권 푸터 -->
   <footer>
-    <div class="footer-version">Live Worksheet v0.1.1 (GitHub Pages)</div>
+    <div class="footer-version">Live Worksheet v0.1.2 (Role-Separated)</div>
     <div>학생 개인정보는 외부 서버에 전송되지 않으며, 교사 로컬 브라우저에서 안전하게 처리됩니다.</div>
     <div>© 2026 Live Worksheet. All rights reserved.</div>
   </footer>
 
-  <!-- 인라인 스크립트: 데이터 및 실시간 동작 엔진 -->
+  <!-- 자바스크립트 엔진 -->
   <script>
-    // 1. 학습지 데이터 모델 정의 (윤동주 시 수업 예시)
+    // 1. 학습지 데이터 모델
     const currentWorksheet = {
       id: 'ws-dongju',
       title: '윤동주, <쉽게 씌어진 시> 탐구와 자기 성찰',
@@ -1046,11 +1299,12 @@
     // 실시간 상태 관리
     let activeBlockIndex = 0;
     let isFreePaced = false; // false: 교사 동기화, true: 학생 자율 이동
+    let currentView = 'deck';
 
-    // 로컬 탭 간 통신 채널 (BroadcastChannel)
+    // BroadcastChannel 실시간 연동
     const channel = new BroadcastChannel('live-worksheet-sync');
 
-    // 학생 응답 저장소 (로컬 메모리)
+    // 학생 응답 저장소
     let responses = [
       {
         id: 'r1',
@@ -1081,7 +1335,6 @@
       }
     ];
 
-    // 워드클라우드 빈도 데이터
     let wordCounts = {
       '부끄러움': 6,
       '성찰': 5,
@@ -1093,7 +1346,6 @@
       '자아': 4
     };
 
-    // 투표 데이터
     let pollResults = {
       opt1: 3,
       opt2: 1
@@ -1101,48 +1353,60 @@
 
     // 초기화
     window.addEventListener('DOMContentLoaded', () => {
-      renderTeacherBlockNav();
-      renderTeacherResponseFeed();
-      renderStudentBlock();
+      // URL 파라미터 확인 (?role=student, ?role=teacher, ?role=demo)
+      const params = new URLSearchParams(window.location.search);
+      const role = params.get('role');
 
-      // 채널 메시지 수신 (다른 탭과의 동기화)
+      if (role === 'student') {
+        switchView('student');
+        // 학생 모드일 때는 상단 교사용 네비게이션을 깔끔히 숨김
+        document.getElementById('header-nav').style.display = 'none';
+        document.getElementById('header-badge').textContent = '학생 전용 뷰';
+      } else if (role === 'teacher') {
+        switchView('teacher');
+      } else if (role === 'demo') {
+        switchView('demo');
+      } else {
+        switchView('deck');
+      }
+
+      renderAll();
+
+      // 채널 메시지 수신 (다른 탭/창과의 실시간 동기화)
       channel.onmessage = (event) => {
         const { type, payload } = event.data;
         if (type === 'BLOCK_CHANGE') {
           activeBlockIndex = payload.index;
-          renderTeacherBlockNav();
-          renderStudentBlock();
-          renderTeacherResponseFeed();
+          renderAll();
         } else if (type === 'MODE_CHANGE') {
           isFreePaced = payload.isFreePaced;
           updateModeUI();
         } else if (type === 'NEW_RESPONSE') {
           responses.push(payload);
-          renderTeacherResponseFeed();
-          if (currentWorksheet.blocks[activeBlockIndex].id === 'b2') {
-            renderStudentBlock();
-          }
+          renderAll();
         } else if (type === 'LIKE_CHANGE') {
           const item = responses.find(r => r.id === payload.id);
           if (item) item.likes = payload.likes;
-          renderStudentBlock();
+          renderAll();
         }
       };
     });
 
-    // 화면 전환
+    // 화면 전환 함수
     function switchView(viewName) {
-      document.getElementById('view-deck').style.display = viewName === 'deck' ? 'flex' : 'none';
-      document.getElementById('view-demo').style.display = viewName === 'demo' ? 'flex' : 'none';
-      document.getElementById('btn-view-deck').classList.toggle('active', viewName === 'deck');
-      document.getElementById('btn-view-demo').classList.toggle('active', viewName === 'demo');
+      currentView = viewName;
+      const views = ['deck', 'teacher', 'student', 'demo'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        const btn = document.getElementById(`btn-view-${v}`);
+        if (el) el.style.display = v === viewName ? (v === 'student' ? 'flex' : (v === 'deck' ? 'flex' : (v === 'teacher' ? 'flex' : 'flex'))) : 'none';
+        if (btn) btn.classList.toggle('active', v === viewName);
+      });
+
+      renderAll();
     }
 
-    function startLiveDemo(wsId) {
-      switchView('demo');
-    }
-
-    // 모드 전환 (교사 동기화 vs 학생 자율)
+    // 모드 전환
     function togglePacingMode(checked) {
       isFreePaced = checked;
       channel.postMessage({ type: 'MODE_CHANGE', payload: { isFreePaced } });
@@ -1150,33 +1414,61 @@
     }
 
     function updateModeUI() {
-      const label = document.getElementById('mode-label');
-      const badge = document.getElementById('student-mode-badge');
-      const navBtns = document.getElementById('student-nav-buttons');
-      const toggle = document.getElementById('mode-toggle');
-
-      toggle.checked = isFreePaced;
-
-      if (isFreePaced) {
-        label.textContent = '자율 탐구 모드 (학생 자유 이동)';
-        label.style.color = 'var(--secondary)';
-        badge.textContent = '🔓 자율 탐구 모드 (앞뒤 이동 가능)';
-        badge.style.background = '#dcfce7';
-        badge.style.color = '#15803d';
-        navBtns.style.display = 'flex';
-      } else {
-        label.textContent = '강제 동기화 (교사 주도 집중)';
-        label.style.color = 'var(--primary-dark)';
-        badge.textContent = '🔒 교사 화면 동기화 중';
-        badge.style.background = '#fee2e2';
-        badge.style.color = '#b91c1c';
-        navBtns.style.display = 'none';
+      // 1. 교사용 토글 UI
+      const tToggle = document.getElementById('teacher-mode-toggle');
+      const tLabel = document.getElementById('teacher-mode-label');
+      if (tToggle) tToggle.checked = isFreePaced;
+      if (tLabel) {
+        tLabel.textContent = isFreePaced ? '자율 탐구 모드 (학생 자유 이동)' : '강제 동기화 (교사 주도 집중)';
+        tLabel.style.color = isFreePaced ? 'var(--secondary)' : 'var(--primary-dark)';
       }
+
+      // 2. 분할 시연 UI
+      const dToggle = document.getElementById('demo-mode-toggle');
+      const dLabel = document.getElementById('demo-mode-label');
+      const dBadge = document.getElementById('demo-student-badge');
+      const dNavBtns = document.getElementById('demo-student-nav-btns');
+      if (dToggle) dToggle.checked = isFreePaced;
+      if (dLabel) dLabel.textContent = isFreePaced ? '자율 이동' : '강제 동기화';
+      if (dBadge) {
+        dBadge.textContent = isFreePaced ? '🔓 자율 모드' : '🔒 동기화 중';
+        dBadge.style.background = isFreePaced ? '#dcfce7' : '#fee2e2';
+        dBadge.style.color = isFreePaced ? '#15803d' : '#b91c1c';
+      }
+      if (dNavBtns) dNavBtns.style.display = isFreePaced ? 'flex' : 'none';
+
+      // 3. 학생 단독 화면 UI
+      const sBadge = document.getElementById('student-standalone-sync-badge');
+      const sNavBtns = document.getElementById('student-standalone-nav-btns');
+      if (sBadge) {
+        sBadge.textContent = isFreePaced ? '🔓 자율 탐구 모드 (앞뒤 이동 가능)' : '🔒 선생님 화면 동기화 중';
+        sBadge.className = `sync-status-indicator ${isFreePaced ? 'status-free' : 'status-locked'}`;
+      }
+      if (sNavBtns) sNavBtns.style.display = isFreePaced ? 'flex' : 'none';
     }
 
-    // 교사 블록 목록 렌더링
-    function renderTeacherBlockNav() {
-      const container = document.getElementById('teacher-block-nav');
+    // 전체 렌더링 동기화
+    function renderAll() {
+      renderBlockNavList('teacher-standalone-nav');
+      renderBlockNavList('demo-teacher-nav');
+      renderResponseFeed('teacher-standalone-feed');
+      renderResponseFeed('demo-teacher-feed');
+      renderStudentBlockHTML('student-standalone-render', 'student-standalone-step');
+      renderStudentBlockHTML('demo-student-render', 'demo-student-step');
+      updateModeUI();
+
+      // 교사용 상단 현재 블록 표시 갱신
+      const curBlock = currentWorksheet.blocks[activeBlockIndex];
+      const tb = document.getElementById('teacher-current-block-badge');
+      const tt = document.getElementById('teacher-current-block-title');
+      if (tb) tb.textContent = curBlock.badge;
+      if (tt) tt.textContent = curBlock.title;
+    }
+
+    // 블록 네비게이션 렌더러
+    function renderBlockNavList(containerId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
       container.innerHTML = '';
 
       currentWorksheet.blocks.forEach((block, idx) => {
@@ -1192,22 +1484,25 @@
         item.onclick = () => {
           activeBlockIndex = idx;
           channel.postMessage({ type: 'BLOCK_CHANGE', payload: { index: idx } });
-          renderTeacherBlockNav();
-          renderStudentBlock();
-          renderTeacherResponseFeed();
+          renderAll();
         };
         container.appendChild(item);
       });
     }
 
-    // 교사용 실시간 응답 피드 렌더링 (실명 포함)
-    function renderTeacherResponseFeed() {
-      const container = document.getElementById('teacher-response-feed');
+    // 교사용 실시간 응답 피드 렌더러 (실명 포함)
+    function renderResponseFeed(containerId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
       const currentBlock = currentWorksheet.blocks[activeBlockIndex];
       container.innerHTML = '';
 
       const relevant = responses.filter(r => r.blockId === currentBlock.id);
-      document.getElementById('response-count').textContent = `수합 ${relevant.length}건`;
+      
+      const countEl1 = document.getElementById('teacher-response-count');
+      const countEl2 = document.getElementById('demo-response-count');
+      if (countEl1) countEl1.textContent = `수합 ${relevant.length}건`;
+      if (countEl2) countEl2.textContent = `${relevant.length}건`;
 
       if (relevant.length === 0) {
         container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--text-muted); font-size:0.85rem;">아직 수합된 학생 응답이 없습니다.</div>`;
@@ -1228,11 +1523,14 @@
       });
     }
 
-    // 학생 화면 블록 렌더링
-    function renderStudentBlock() {
-      const container = document.getElementById('student-block-render');
+    // 학생 학습지 블록 렌더러
+    function renderStudentBlockHTML(renderContainerId, stepIndicatorId) {
+      const container = document.getElementById(renderContainerId);
+      const stepEl = document.getElementById(stepIndicatorId);
+      if (!container) return;
+
       const block = currentWorksheet.blocks[activeBlockIndex];
-      document.getElementById('student-step-indicator').textContent = `${activeBlockIndex + 1} / ${currentWorksheet.blocks.length} 단계`;
+      if (stepEl) stepEl.textContent = `${activeBlockIndex + 1} / ${currentWorksheet.blocks.length} 단계`;
 
       let html = `
         <span class="block-badge">${block.badge}</span>
@@ -1252,11 +1550,11 @@
         `;
       } else if (block.type === 'thought') {
         html += `
-          <p style="font-size:0.9rem; margin-bottom:0.75rem; color:#475569; line-height:1.5;">${block.question}</p>
+          <p style="font-size:0.95rem; margin-bottom:0.85rem; color:#475569; line-height:1.6;">${block.question}</p>
           <div class="thought-input-area">
-            <textarea class="thought-textarea" id="student-thought-input" placeholder="${block.placeholder}"></textarea>
+            <textarea class="thought-textarea" id="${renderContainerId}-input" placeholder="${block.placeholder}"></textarea>
             <div style="display:flex; justify-content:flex-end;">
-              <button class="btn btn-primary btn-sm" onclick="submitStudentThought()">생각 제출하기 🚀</button>
+              <button class="btn btn-primary btn-sm" onclick="submitStudentThought('${renderContainerId}-input')">생각 제출하기 🚀</button>
             </div>
           </div>
           
@@ -1265,7 +1563,7 @@
               <span>친구들의 생각 보드 (익명 공유)</span>
               <span style="font-size:0.75rem; color:var(--text-muted);">공감되는 생각에 하트를 눌러보세요!</span>
             </div>
-            <div class="peer-thoughts-grid" id="peer-thoughts-container">
+            <div class="peer-thoughts-grid">
               ${responses.filter(r => r.blockId === block.id).map(r => `
                 <div class="peer-card">
                   <div>
@@ -1282,10 +1580,10 @@
         `;
       } else if (block.type === 'wordcloud') {
         html += `
-          <p style="font-size:0.9rem; margin-bottom:0.75rem; color:#475569;">${block.question}</p>
+          <p style="font-size:0.95rem; margin-bottom:0.75rem; color:#475569;">${block.question}</p>
           <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
-            <input type="text" id="wc-input" placeholder="핵심 단어 입력 (예: 부끄러움)" style="flex:1; padding:0.5rem; border:1px solid var(--border); border-radius:6px; font-size:0.9rem;">
-            <button class="btn btn-primary btn-sm" onclick="submitWord()">단어 등록</button>
+            <input type="text" id="${renderContainerId}-wc" placeholder="핵심 단어 입력 (예: 부끄러움)" style="flex:1; padding:0.6rem; border:1px solid var(--border); border-radius:6px; font-size:0.9rem;">
+            <button class="btn btn-primary btn-sm" onclick="submitWord('${renderContainerId}-wc')">단어 등록</button>
           </div>
           <div class="wordcloud-container">
             ${Object.entries(wordCounts).map(([w, count]) => {
@@ -1298,7 +1596,7 @@
         `;
       } else if (block.type === 'poll') {
         html += `
-          <p style="font-size:0.9rem; margin-bottom:0.75rem; color:#475569; font-weight:600;">${block.question}</p>
+          <p style="font-size:0.95rem; margin-bottom:0.85rem; color:#475569; font-weight:600;">${block.question}</p>
           <div class="poll-options">
             ${block.options.map((opt, i) => {
               const total = pollResults.opt1 + pollResults.opt2;
@@ -1316,12 +1614,12 @@
         `;
       } else if (block.type === 'quiz') {
         html += `
-          <p style="font-size:1rem; margin-bottom:1rem; color:#1e293b; font-weight:700;">${block.question}</p>
+          <p style="font-size:1.05rem; margin-bottom:1rem; color:#1e293b; font-weight:700;">${block.question}</p>
           <div style="display:flex; gap:1rem; margin-bottom:1rem;">
-            <button class="btn btn-outline" style="flex:1; padding:1.25rem; font-size:1.5rem; font-weight:800;" onclick="submitQuiz(true)">⭕ O</button>
-            <button class="btn btn-outline" style="flex:1; padding:1.25rem; font-size:1.5rem; font-weight:800;" onclick="submitQuiz(false)">❌ X</button>
+            <button class="btn btn-outline" style="flex:1; padding:1.25rem; font-size:1.5rem; font-weight:800;" onclick="submitQuiz(true, '${renderContainerId}-quiz-result')">⭕ O</button>
+            <button class="btn btn-outline" style="flex:1; padding:1.25rem; font-size:1.5rem; font-weight:800;" onclick="submitQuiz(false, '${renderContainerId}-quiz-result')">❌ X</button>
           </div>
-          <div id="quiz-result-box" style="display:none; background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:1rem;"></div>
+          <div id="${renderContainerId}-quiz-result" style="display:none; background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:1rem;"></div>
         `;
       }
 
@@ -1329,8 +1627,9 @@
     }
 
     // 학생 생각 제출
-    function submitStudentThought() {
-      const input = document.getElementById('student-thought-input');
+    function submitStudentThought(inputId) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
       const val = input.value.trim();
       if (!val) {
         alert('생각을 한 문장 이상 작성해 주세요!');
@@ -1350,48 +1649,50 @@
       responses.push(newResp);
       channel.postMessage({ type: 'NEW_RESPONSE', payload: newResp });
       input.value = '';
-      renderStudentBlock();
-      renderTeacherResponseFeed();
+      renderAll();
     }
 
-    // 친구 생각 공감(하트) 누르기
+    // 공감 하트
     function toggleLike(respId) {
       const item = responses.find(r => r.id === respId);
       if (item) {
         item.likes += 1;
         channel.postMessage({ type: 'LIKE_CHANGE', payload: { id: respId, likes: item.likes } });
-        renderStudentBlock();
+        renderAll();
       }
     }
 
-    // 워드클라우드 단어 등록
-    function submitWord() {
-      const input = document.getElementById('wc-input');
+    // 단어 제출
+    function submitWord(inputId) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
       const word = input.value.trim();
       if (!word) return;
       wordCounts[word] = (wordCounts[word] || 0) + 1;
       input.value = '';
-      renderStudentBlock();
+      renderAll();
     }
 
-    // 투표 참여
+    // 투표 제출
     function votePoll(optId) {
       pollResults[optId] = (pollResults[optId] || 0) + 1;
-      renderStudentBlock();
+      renderAll();
     }
 
     // 퀴즈 제출
-    function submitQuiz(userChoice) {
+    function submitQuiz(userChoice, resultBoxId) {
       const block = currentWorksheet.blocks[activeBlockIndex];
       const isCorrect = userChoice === block.answer;
-      const box = document.getElementById('quiz-result-box');
-      box.style.display = 'block';
-      box.innerHTML = `
-        <div style="font-weight:700; font-size:1rem; color:${isCorrect ? 'var(--secondary)' : 'var(--danger)'}; margin-bottom:0.4rem;">
-          ${isCorrect ? '🎉 정답입니다!' : '🤔 아쉽지만 오답입니다!'}
-        </div>
-        <div style="font-size:0.85rem; color:#475569; line-height:1.5;">${block.explanation}</div>
-      `;
+      const box = document.getElementById(resultBoxId);
+      if (box) {
+        box.style.display = 'block';
+        box.innerHTML = `
+          <div style="font-weight:700; font-size:1rem; color:${isCorrect ? 'var(--secondary)' : 'var(--danger)'}; margin-bottom:0.4rem;">
+            ${isCorrect ? '🎉 정답입니다!' : '🤔 아쉽지만 오답입니다!'}
+          </div>
+          <div style="font-size:0.85rem; color:#475569; line-height:1.5;">${block.explanation}</div>
+        `;
+      }
     }
 
     // 학생 자율 이동
@@ -1400,11 +1701,11 @@
       const nextIdx = activeBlockIndex + delta;
       if (nextIdx >= 0 && nextIdx < currentWorksheet.blocks.length) {
         activeBlockIndex = nextIdx;
-        renderStudentBlock();
+        renderAll();
       }
     }
 
-    // 가상 학생 응답 시뮬레이션
+    // 가상 학생 응답 생성
     function simulatePeerResponses() {
       const dummy = [
         { no: '10304', name: '최윤아', nick: '바람소리', text: '식민지 현실 속에서 무력한 자신을 반성하고 극복하려는 숭고한 의지라고 느꼈어요.' },
@@ -1426,13 +1727,10 @@
         channel.postMessage({ type: 'NEW_RESPONSE', payload: item });
       });
 
-      renderTeacherResponseFeed();
-      if (currentWorksheet.blocks[activeBlockIndex].id === 'b2') {
-        renderStudentBlock();
-      }
+      renderAll();
     }
 
-    // 엑셀/구글 시트(CSV) 내보내기 (세특용)
+    // CSV 다운로드
     function exportToCSV() {
       let csvContent = '\uFEFF학번,이름,블록유형,제출내용,공감수\n';
       responses.forEach(r => {
@@ -1449,7 +1747,7 @@
       document.body.removeChild(a);
     }
 
-    // 업로드 모달 제어
+    // 업로드 모달
     function openUploadModal() {
       document.getElementById('upload-modal').classList.add('active');
     }
@@ -1457,7 +1755,6 @@
       document.getElementById('upload-modal').classList.remove('active');
     }
 
-    // PDF 파싱 시뮬레이션
     function simulatePdfUpload() {
       const progress = document.getElementById('upload-progress');
       const bar = document.getElementById('parse-bar');
@@ -1492,22 +1789,20 @@
 
     function finishUploadAndStart() {
       closeUploadModal();
-      startLiveDemo('ws-dongju');
+      switchView('teacher');
     }
 
-    // 리포트 모달 제어
+    // 리포트 모달
     function openReportModal() {
       const modal = document.getElementById('report-modal');
       const wc = document.getElementById('report-wordcloud');
       const best = document.getElementById('report-best-thoughts');
 
-      // 워드클라우드
       wc.innerHTML = Object.entries(wordCounts).map(([w, c]) => {
         const size = Math.min(2.0, 0.9 + c * 0.2);
         return `<span style="font-size:${size}rem; font-weight:800; color:#2563eb; margin:0.3rem;">${w}</span>`;
       }).join(' ');
 
-      // 베스트 생각 상위 2개
       const sorted = [...responses].sort((a,b) => b.likes - a.likes).slice(0, 2);
       best.innerHTML = sorted.map(r => `
         <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; padding:0.6rem 0.85rem; font-size:0.85rem;">
@@ -1525,8 +1820,10 @@
       document.getElementById('report-modal').classList.remove('active');
     }
 
+    // 새 창으로 열기 (role 분기 파라미터 적용)
     function openNewWindow(role) {
-      window.open(window.location.href, '_blank', 'width=480,height=800');
+      const url = window.location.origin + window.location.pathname + '?role=' + role;
+      window.open(url, '_blank', 'width=520,height=850');
     }
   </script>
 </body>
