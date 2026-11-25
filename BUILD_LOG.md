@@ -1,16 +1,16 @@
 # BUILD_LOG — live-worksheet (실시간 상호작용 국어 라이브 학습지)
 
 ## 현재 상태 (2026-11-26)
-- **버전:** v0.1.1 (GitHub 배포 및 GitHub Pages 공개)
+- **버전:** v0.1.1 (GitHub Pages 웹 배포 완료 - 200 OK)
 - **달성한 것:**
   - 6단계 심층 인터뷰를 통한 요구사항 명세화 완료 (`live-worksheet-spec.md` 아티팩트 승인).
   - 객체 중심 데이터 모델 및 블록 6종 정의 (`DESIGN.md`, `CLAUDE.md`).
   - 외부 백엔드 서버 없이 브라우저 로컬 탭 간 실시간 통신(`BroadcastChannel`) 기반 독립형 프로토타입 아키텍처 설계.
-  - `index.html` 단일 파일로 선생님 화면, 학생 화면, 분할 시연 화면을 갖춘 로컬 프로토타입 구현 및 자바스크립트 엔진 문법 검증 완료.
-  - GitHub 원격 저장소(`https://github.com/yerang-k/live-worksheet`) 연결 및 `README.md` 작성.
-  - GitHub Pages 웹 배포 활성화 (`https://yerang-k.github.io/live-worksheet/`).
+  - `index.html` 단일 파일로 선생님 화면, 학생 화면, 분할 시연 화면을 갖춘 로컬 프로토타입 구현 완료.
+  - GitHub 저장소 공개(Public) 전환 및 `README.md` 작성/푸시 완료.
+  - GitHub Pages 웹 배포 빌드 완료 및 라이브 서비스 개시 (`https://yerang-k.github.io/live-worksheet/`).
 - **다음 작업:**
-  - 사용자 피드백을 바탕으로 실제 교실 수업 시나리오 보강 및 모바일 반응형 뷰 세부 튜닝.
+  - 실제 수업 활용 피드백 수렴 및 PDF 자동 변환 모듈의 세부 파싱 로직 확장.
 
 ---
 
@@ -45,7 +45,8 @@
 ## Step 3. GitHub 배포 및 GitHub Pages 웹 호스팅 설정 (2026-11-26)
 - **목표:** 학교 교실이나 모바일/노트북 어디서나 바로 접속할 수 있도록 GitHub 원격 저장소에 프로젝트 소개 README를 추가하고 GitHub Pages 배포 활성화
 - **작업 내용:**
-  1. `README.md` 작성 (기능 소개, 온라인 배포 링크, 사용법 안내)
-  2. `BUILD_LOG.md` 최신 상태 반영 및 버전 `v0.1.1` 상향
-  3. GitHub Pages API 활성화 (`main` 브랜치 루트 기반 배포)
+  1. 저장소 공개(Public) 전환
+  2. `README.md` 작성 (기능 소개, 온라인 배포 링크, 사용법 안내)
+  3. `BUILD_LOG.md` 최신 상태 반영 및 버전 `v0.1.1` 상향
+  4. GitHub Pages 배포 완료 (Actions 빌드 성공, HTTP 200 OK 확인)
 - **배포 주소:** https://yerang-k.github.io/live-worksheet/
