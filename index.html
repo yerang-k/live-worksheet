@@ -40,6 +40,30 @@
       flex-direction: column;
     }
 
+    /* SVG 아이콘 스타일 */
+    .icon {
+      width: 1.1em;
+      height: 1.1em;
+      vertical-align: -0.18em;
+      display: inline-block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    .icon-fill {
+      fill: currentColor;
+    }
+    .icon-lg {
+      width: 3rem;
+      height: 3rem;
+      stroke-width: 1.5;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
     /* 상단 헤더 */
     header {
       background: var(--surface);
@@ -114,7 +138,7 @@
       transition: all 0.15s ease;
       display: inline-flex;
       align-items: center;
-      gap: 0.3rem;
+      gap: 0.4rem;
     }
 
     .view-btn.active {
@@ -272,7 +296,7 @@
       border-radius: 4px;
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.3rem;
     }
 
     .card-actions-grid {
@@ -672,7 +696,7 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.3rem;
       color: #a16207;
       transition: transform 0.1s;
     }
@@ -770,6 +794,9 @@
       font-size: 1.25rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .modal-desc {
@@ -840,12 +867,27 @@
 
     <div class="header-nav" id="header-nav">
       <div class="view-switcher">
-        <button class="view-btn active" id="btn-view-deck" onclick="switchView('deck')">📚 보관함</button>
-        <button class="view-btn" id="btn-view-teacher" onclick="switchView('teacher')">👨‍🏫 교사용 화면</button>
-        <button class="view-btn" id="btn-view-student" onclick="switchView('student')">📱 학생용 화면</button>
-        <button class="view-btn" id="btn-view-demo" onclick="switchView('demo')">⚡ 분할 시연</button>
+        <button class="view-btn active" id="btn-view-deck" onclick="switchView('deck')">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+          보관함
+        </button>
+        <button class="view-btn" id="btn-view-teacher" onclick="switchView('teacher')">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          교사용 화면
+        </button>
+        <button class="view-btn" id="btn-view-student" onclick="switchView('student')">
+          <svg class="icon" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+          학생용 화면
+        </button>
+        <button class="view-btn" id="btn-view-demo" onclick="switchView('demo')">
+          <svg class="icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></svg>
+          분할 시연
+        </button>
       </div>
-      <button class="btn btn-outline btn-sm" onclick="openNewWindow('student')">새 탭으로 학생창 열기 ↗</button>
+      <button class="btn btn-outline btn-sm" onclick="openNewWindow('student')">
+        새 탭으로 학생창 열기
+        <svg class="icon" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+      </button>
     </div>
   </header>
 
@@ -860,7 +902,8 @@
           <p class="section-desc">한글(HWP/PDF)로 만든 수업 자료를 실시간 상호작용 학습지로 변환해 수업을 진행합니다.</p>
         </div>
         <button class="btn btn-primary" onclick="openUploadModal()">
-          📄 + 한글/PDF로 새 학습지 만들기
+          <svg class="icon" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="12" x2="12" y1="18" y2="12"/><line x1="9" x2="15" y1="15" y2="15"/></svg>
+          한글/PDF로 새 학습지 만들기
         </button>
       </div>
 
@@ -878,22 +921,40 @@
               어둠 속 등불을 밝혀 시대를 건너는 화자의 태도를 읽고, 오늘날 나의 고민을 성찰하는 50분 참여 수업
             </p>
             <div class="card-blocks-summary">
-              <span class="block-chip">📖 지문 해설</span>
-              <span class="block-chip">💭 생각 적기</span>
-              <span class="block-chip">☁️ 워드클라우드</span>
-              <span class="block-chip">📊 찬반 투표</span>
-              <span class="block-chip">⏱️ OX 퀴즈</span>
+              <span class="block-chip">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                지문 해설
+              </span>
+              <span class="block-chip">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                생각 적기
+              </span>
+              <span class="block-chip">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+                워드클라우드
+              </span>
+              <span class="block-chip">
+                <svg class="icon" viewBox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+                찬반 투표
+              </span>
+              <span class="block-chip">
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                OX 퀴즈
+              </span>
             </div>
           </div>
           <div class="card-actions-grid">
             <button class="btn btn-primary btn-sm" onclick="switchView('teacher')">
-              👨‍🏫 교사용 대시보드 열기
+              <svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              교사용 대시보드
             </button>
             <button class="btn btn-secondary btn-sm" onclick="switchView('student')">
-              📱 학생용 화면 입장
+              <svg class="icon" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+              학생용 화면 입장
             </button>
             <button class="btn btn-outline btn-sm card-action-full" onclick="switchView('demo')">
-              ⚡ 좌우 분할 시연 뷰 (교사/학생 동시 테스트)
+              <svg class="icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></svg>
+              분할 시연 뷰 (동시 테스트)
             </button>
           </div>
         </div>
@@ -910,21 +971,36 @@
               AI가 생성한 창작물의 저작권 인정 여부를 둘러싼 대립 논거를 분석하고 실시간 찬반 토론
             </p>
             <div class="card-blocks-summary">
-              <span class="block-chip">📖 읽기 지문</span>
-              <span class="block-chip">📊 찬반 투표</span>
-              <span class="block-chip">💭 논거 쓰기</span>
-              <span class="block-chip">⏱️ 4지선다 퀴즈</span>
+              <span class="block-chip">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                읽기 지문
+              </span>
+              <span class="block-chip">
+                <svg class="icon" viewBox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+                찬반 투표
+              </span>
+              <span class="block-chip">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                논거 쓰기
+              </span>
+              <span class="block-chip">
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                4지선다 퀴즈
+              </span>
             </div>
           </div>
           <div class="card-actions-grid">
             <button class="btn btn-primary btn-sm" onclick="switchView('teacher')">
-              👨‍🏫 교사용 대시보드 열기
+              <svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              교사용 대시보드
             </button>
             <button class="btn btn-secondary btn-sm" onclick="switchView('student')">
-              📱 학생용 화면 입장
+              <svg class="icon" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+              학생용 화면 입장
             </button>
             <button class="btn btn-outline btn-sm card-action-full" onclick="switchView('demo')">
-              ⚡ 좌우 분할 시연 뷰 (교사/학생 동시 테스트)
+              <svg class="icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></svg>
+              분할 시연 뷰 (동시 테스트)
             </button>
           </div>
         </div>
@@ -955,13 +1031,16 @@
           </div>
 
           <button class="btn btn-outline btn-sm" onclick="simulatePeerResponses()">
-            🤖 가상 학생 응답 (+3명)
+            <svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+            가상 학생 응답 (+3명)
           </button>
           <button class="btn btn-outline btn-sm" onclick="exportToCSV()">
-            📥 구글 시트(CSV) 내보내기
+            <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            구글 시트(CSV) 내보내기
           </button>
           <button class="btn btn-primary btn-sm" onclick="openReportModal()">
-            📊 수업 요약 리포트
+            <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            수업 요약 리포트
           </button>
         </div>
       </div>
@@ -969,8 +1048,9 @@
       <div class="teacher-layout-grid">
         <!-- 좌측: 블록 타임라인 목록 -->
         <div class="teacher-sidebar">
-          <div style="font-size:0.9rem; font-weight:700; color:var(--text-muted);">
-            학습지 블록 순서 (클릭 시 학생 화면 강제 이동)
+          <div style="font-size:0.9rem; font-weight:700; color:var(--text-muted); display:flex; align-items:center; gap:0.4rem;">
+            <svg class="icon" viewBox="0 0 24 24"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
+            학습지 블록 순서 (클릭 시 이동)
           </div>
           <div class="block-nav-list" id="teacher-standalone-nav">
             <!-- JS 동적 렌더링 -->
@@ -1014,7 +1094,8 @@
         </div>
 
         <div id="student-standalone-sync-badge" class="sync-status-indicator status-locked">
-          🔒 선생님 화면 동기화 중
+          <svg class="icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          선생님 화면 동기화 중
         </div>
       </div>
 
@@ -1022,8 +1103,12 @@
       <div class="student-status-bar">
         <span>현재 단계: <strong id="student-standalone-step">1 / 5 단계</strong></span>
         <div id="student-standalone-nav-btns" style="display:none; gap:0.4rem;">
-          <button class="btn btn-outline btn-sm" onclick="studentNavigate(-1)">◀ 이전</button>
-          <button class="btn btn-outline btn-sm" onclick="studentNavigate(1)">다음 ▶</button>
+          <button class="btn btn-outline btn-sm" onclick="studentNavigate(-1)">
+            <svg class="icon" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> 이전
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="studentNavigate(1)">
+            다음 <svg class="icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
         </div>
       </div>
 
@@ -1046,8 +1131,14 @@
           </div>
           <div style="display:flex; gap:0.5rem; align-items:center;">
             <span style="font-size:0.8rem; color:var(--text-muted);">PIN: <strong>7294</strong></span>
-            <button class="btn btn-outline btn-sm" onclick="exportToCSV()">CSV</button>
-            <button class="btn btn-primary btn-sm" onclick="openReportModal()">리포트</button>
+            <button class="btn btn-outline btn-sm" onclick="exportToCSV()">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              CSV
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="openReportModal()">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              리포트
+            </button>
           </div>
         </div>
 
@@ -1061,7 +1152,10 @@
               </label>
               <span id="demo-mode-label" style="color:var(--primary-dark); font-weight:700;">강제 동기화</span>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="simulatePeerResponses()">+3명 생성</button>
+            <button class="btn btn-outline btn-sm" onclick="simulatePeerResponses()">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              +3명 생성
+            </button>
           </div>
 
           <div>
@@ -1092,8 +1186,9 @@
             <span class="badge-role badge-student">학생 참여 화면</span>
             <span style="font-size:0.85rem; color:var(--text-muted);">10301 김철수 (밤하늘별빛)</span>
           </div>
-          <div id="demo-student-badge" style="font-size:0.75rem; background:#fee2e2; color:#b91c1c; padding:0.2rem 0.5rem; border-radius:4px; font-weight:600;">
-            🔒 동기화 중
+          <div id="demo-student-badge" style="font-size:0.75rem; background:#fee2e2; color:#b91c1c; padding:0.2rem 0.5rem; border-radius:4px; font-weight:600; display:inline-flex; align-items:center; gap:0.25rem;">
+            <svg class="icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            동기화 중
           </div>
         </div>
 
@@ -1101,8 +1196,12 @@
           <div class="student-status-bar">
             <span>진행 상황: <strong id="demo-student-step">1 / 5 단계</strong></span>
             <div id="demo-student-nav-btns" style="display:none; gap:0.4rem;">
-              <button class="btn btn-outline btn-sm" onclick="studentNavigate(-1)">◀ 이전</button>
-              <button class="btn btn-outline btn-sm" onclick="studentNavigate(1)">다음 ▶</button>
+              <button class="btn btn-outline btn-sm" onclick="studentNavigate(-1)">
+                <svg class="icon" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> 이전
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="studentNavigate(1)">
+                다음 <svg class="icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
             </div>
           </div>
 
@@ -1118,14 +1217,17 @@
   <!-- 한글/PDF 업로드 변환 모달 -->
   <div class="modal-overlay" id="upload-modal">
     <div class="modal-box">
-      <h3 class="modal-title">📄 한글(HWP) → PDF 라이브 학습지 변환기</h3>
+      <h3 class="modal-title">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+        한글(HWP) → PDF 라이브 학습지 변환기
+      </h3>
       <p class="modal-desc">
         한글 프로그램에서 평소처럼 만든 학습지를 <strong>[파일 → PDF로 저장]</strong>한 뒤 업로드해 주세요.
         AI가 지문, 생각 발문, 퀴즈를 자동으로 분류하여 라이브 학습지 블록으로 조립합니다.
       </p>
 
       <div class="dropzone" onclick="simulatePdfUpload()">
-        <div style="font-size:2.5rem; margin-bottom:0.5rem;">📂</div>
+        <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><line x1="12" x2="12" y1="11" y2="17"/><polyline points="9 14 12 11 15 14"/></svg>
         <div style="font-weight:700; font-size:1rem; margin-bottom:0.25rem;">여기를 클릭하거나 PDF 파일을 끌어다 놓으세요</div>
         <div style="font-size:0.8rem; color:var(--text-muted);">지원 형식: PDF (한글 2020/2024에서 내보낸 PDF 권장)</div>
       </div>
@@ -1163,13 +1265,19 @@
             일시: 2026. 11. 26. 1교시 | 대상: 1학년 3반 (참여 4명) | 지도교사: 김예랑
           </div>
         </div>
-        <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+        <button class="btn btn-outline btn-sm" onclick="window.print()">
+          <svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+          인쇄 / PDF 저장
+        </button>
       </div>
 
       <div style="display:flex; flex-direction:column; gap:1.25rem;">
         <!-- 1. 핵심 키워드 워드클라우드 -->
         <div style="background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:1rem;">
-          <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:0.5rem;">☁️ 오늘 학생들이 가장 많이 꼽은 핵심 시어</h4>
+          <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem;">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+            오늘 학생들이 가장 많이 꼽은 핵심 시어
+          </h4>
           <div class="wordcloud-container" style="min-height:90px;" id="report-wordcloud">
             <!-- 리포트용 단어들 -->
           </div>
@@ -1177,7 +1285,10 @@
 
         <!-- 2. 찬반 투표 결과 -->
         <div style="background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:1rem;">
-          <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:0.5rem;">📊 실시간 설문 결과: "시대의 어둠 속 지식인의 고뇌에 공감하는가?"</h4>
+          <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem;">
+            <svg class="icon" viewBox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+            실시간 설문 결과: "시대의 어둠 속 지식인의 고뇌에 공감하는가?"
+          </h4>
           <div style="display:flex; gap:1rem; align-items:center; margin-top:0.5rem;">
             <div style="flex:1;">
               <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:600; margin-bottom:0.25rem;">
@@ -1202,7 +1313,10 @@
 
         <!-- 3. 학생들이 뽑은 베스트 생각 카드 -->
         <div style="background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:1rem;">
-          <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:0.5rem;">❤️ 친구들의 가장 많은 공감(하트)을 받은 생각</h4>
+          <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem;">
+            <svg class="icon" viewBox="0 0 24 24" style="color:var(--danger);"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            친구들의 가장 많은 공감(하트)을 받은 생각
+          </h4>
           <div id="report-best-thoughts" style="display:flex; flex-direction:column; gap:0.5rem;">
             <!-- 베스트 생각 목록 -->
           </div>
@@ -1217,13 +1331,29 @@
 
   <!-- 하단 상태 및 저작권 푸터 -->
   <footer>
-    <div class="footer-version">Live Worksheet v0.1.2 (Role-Separated)</div>
+    <div class="footer-version">Live Worksheet v0.1.3 (Clean SVG UI)</div>
     <div>학생 개인정보는 외부 서버에 전송되지 않으며, 교사 로컬 브라우저에서 안전하게 처리됩니다.</div>
     <div>© 2026 Live Worksheet. All rights reserved.</div>
   </footer>
 
   <!-- 자바스크립트 엔진 -->
   <script>
+    // 재사용 SVG 아이콘 생성 헬퍼
+    const SVG = {
+      heart: (filled = false) => `<svg class="icon ${filled ? 'icon-fill' : ''}" viewBox="0 0 24 24" style="color:#e11d48;"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`,
+      check: () => `<svg class="icon" viewBox="0 0 24 24" style="color:var(--secondary); stroke-width:3;"><polyline points="20 6 9 17 4 12"/></svg>`,
+      cross: () => `<svg class="icon" viewBox="0 0 24 24" style="color:var(--danger); stroke-width:3;"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>`,
+      send: () => `<svg class="icon" viewBox="0 0 24 24"><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
+      info: () => `<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="16" y2="12"/><line x1="12" x2="12.01" y1="8" y2="8"/></svg>`,
+      lock: () => `<svg class="icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+      unlock: () => `<svg class="icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>`,
+      passage: () => `<svg class="icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+      thought: () => `<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+      cloud: () => `<svg class="icon" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>`,
+      poll: () => `<svg class="icon" viewBox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>`,
+      quiz: () => `<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`
+    };
+
     // 1. 학습지 데이터 모델
     const currentWorksheet = {
       id: 'ws-dongju',
@@ -1235,6 +1365,7 @@
           type: 'passage',
           title: '1. 작품 본문 감상 및 시어 탐색',
           badge: '지문 해설',
+          badgeIcon: SVG.passage(),
           content: `창 밖에 밤비가 속살거려
 육첩방(六疊房)은 남의 나라,
 
@@ -1263,6 +1394,7 @@
           type: 'thought',
           title: '2. 시 속 화자의 마음에 공감하며 생각 적기',
           badge: '실시간 생각 적기',
+          badgeIcon: SVG.thought(),
           question: '화자가 "나는 무얼 바라 홀로 침전하는 것일까?"라고 자문할 때 느꼈을 감정은 무엇이었을까요? 내 삶에서 무기력함을 느꼈던 경험과 연결지어 짧게 적어봅시다.',
           placeholder: '솔직한 내 생각을 한 문장 이상 적어보세요. (친구들에게는 익명으로 공유됩니다)'
         },
@@ -1271,6 +1403,7 @@
           type: 'wordcloud',
           title: '3. 시를 읽고 떠오르는 핵심 키워드 1단어',
           badge: '워드클라우드',
+          badgeIcon: SVG.cloud(),
           question: '이 시 전체를 관통하는 가장 인상 깊은 단어 하나를 적어주세요.'
         },
         {
@@ -1278,6 +1411,7 @@
           type: 'poll',
           title: '4. 실시간 가치 탐구 설문',
           badge: '찬반 투표',
+          badgeIcon: SVG.poll(),
           question: '화자처럼 펜을 들고 시를 쓰는 행위는 시대의 어둠에 맞서는 진정한 저항일까요, 아니면 소극적인 위안일까요?',
           options: [
             { id: 'opt1', text: '부끄러움을 아는 진정한 내면적 저항이다' },
@@ -1289,9 +1423,10 @@
           type: 'quiz',
           title: '5. 핵심 원리 확인 OX 퀴즈',
           badge: '실시간 퀴즈',
+          badgeIcon: SVG.quiz(),
           question: '이 시의 결말에서 두 자아(성찰하는 자아와 현실적 자아)는 영원히 화해하지 못하고 갈등을 멈추지 않는다.',
           answer: false,
-          explanation: 'X입니다! 마지막 연에서 화자는 두 자아가 "최초의 악수"를 나누며 화해와 극복의 의지를 다집니다.'
+          explanation: '오답입니다. 마지막 연에서 화자는 두 자아가 "최초의 악수"를 나누며 화해와 극복의 의지를 다집니다.'
         }
       ]
     };
@@ -1353,13 +1488,11 @@
 
     // 초기화
     window.addEventListener('DOMContentLoaded', () => {
-      // URL 파라미터 확인 (?role=student, ?role=teacher, ?role=demo)
       const params = new URLSearchParams(window.location.search);
       const role = params.get('role');
 
       if (role === 'student') {
         switchView('student');
-        // 학생 모드일 때는 상단 교사용 네비게이션을 깔끔히 숨김
         document.getElementById('header-nav').style.display = 'none';
         document.getElementById('header-badge').textContent = '학생 전용 뷰';
       } else if (role === 'teacher') {
@@ -1372,7 +1505,6 @@
 
       renderAll();
 
-      // 채널 메시지 수신 (다른 탭/창과의 실시간 동기화)
       channel.onmessage = (event) => {
         const { type, payload } = event.data;
         if (type === 'BLOCK_CHANGE') {
@@ -1392,14 +1524,14 @@
       };
     });
 
-    // 화면 전환 함수
+    // 화면 전환
     function switchView(viewName) {
       currentView = viewName;
       const views = ['deck', 'teacher', 'student', 'demo'];
       views.forEach(v => {
         const el = document.getElementById(`view-${v}`);
         const btn = document.getElementById(`btn-view-${v}`);
-        if (el) el.style.display = v === viewName ? (v === 'student' ? 'flex' : (v === 'deck' ? 'flex' : (v === 'teacher' ? 'flex' : 'flex'))) : 'none';
+        if (el) el.style.display = v === viewName ? 'flex' : 'none';
         if (btn) btn.classList.toggle('active', v === viewName);
       });
 
@@ -1431,7 +1563,7 @@
       if (dToggle) dToggle.checked = isFreePaced;
       if (dLabel) dLabel.textContent = isFreePaced ? '자율 이동' : '강제 동기화';
       if (dBadge) {
-        dBadge.textContent = isFreePaced ? '🔓 자율 모드' : '🔒 동기화 중';
+        dBadge.innerHTML = `${isFreePaced ? SVG.unlock() : SVG.lock()} ${isFreePaced ? '자율 모드' : '동기화 중'}`;
         dBadge.style.background = isFreePaced ? '#dcfce7' : '#fee2e2';
         dBadge.style.color = isFreePaced ? '#15803d' : '#b91c1c';
       }
@@ -1441,7 +1573,7 @@
       const sBadge = document.getElementById('student-standalone-sync-badge');
       const sNavBtns = document.getElementById('student-standalone-nav-btns');
       if (sBadge) {
-        sBadge.textContent = isFreePaced ? '🔓 자율 탐구 모드 (앞뒤 이동 가능)' : '🔒 선생님 화면 동기화 중';
+        sBadge.innerHTML = `${isFreePaced ? SVG.unlock() : SVG.lock()} ${isFreePaced ? '자율 탐구 모드 (앞뒤 이동 가능)' : '선생님 화면 동기화 중'}`;
         sBadge.className = `sync-status-indicator ${isFreePaced ? 'status-free' : 'status-locked'}`;
       }
       if (sNavBtns) sNavBtns.style.display = isFreePaced ? 'flex' : 'none';
@@ -1461,7 +1593,7 @@
       const curBlock = currentWorksheet.blocks[activeBlockIndex];
       const tb = document.getElementById('teacher-current-block-badge');
       const tt = document.getElementById('teacher-current-block-title');
-      if (tb) tb.textContent = curBlock.badge;
+      if (tb) tb.innerHTML = `${curBlock.badgeIcon || ''} ${curBlock.badge}`;
       if (tt) tt.textContent = curBlock.title;
     }
 
@@ -1479,7 +1611,9 @@
             <span style="font-size:0.75rem; background:#f1f5f9; padding:0.15rem 0.4rem; border-radius:4px; font-weight:700;">${idx + 1}</span>
             <span style="font-size:0.85rem;">${block.title}</span>
           </div>
-          <span style="font-size:0.75rem; color:var(--text-muted);">${block.badge}</span>
+          <span style="font-size:0.75rem; color:var(--text-muted); display:inline-flex; align-items:center; gap:0.25rem;">
+            ${block.badgeIcon || ''} ${block.badge}
+          </span>
         `;
         item.onclick = () => {
           activeBlockIndex = idx;
@@ -1515,7 +1649,7 @@
         card.innerHTML = `
           <div class="feed-author">
             <span class="author-realname">${r.studentNo} ${r.studentName} <span style="font-weight:normal; color:#94a3b8;">(${r.nickname})</span></span>
-            <span>❤️ ${r.likes}</span>
+            <span style="display:inline-flex; align-items:center; gap:0.2rem;">${SVG.heart(true)} ${r.likes}</span>
           </div>
           <div style="color:#334155; line-height:1.4;">${r.text}</div>
         `;
@@ -1533,7 +1667,9 @@
       if (stepEl) stepEl.textContent = `${activeBlockIndex + 1} / ${currentWorksheet.blocks.length} 단계`;
 
       let html = `
-        <span class="block-badge">${block.badge}</span>
+        <span class="block-badge" style="display:inline-flex; align-items:center; gap:0.3rem;">
+          ${block.badgeIcon || ''} ${block.badge}
+        </span>
         <h3 class="block-title">${block.title}</h3>
       `;
 
@@ -1544,8 +1680,8 @@
                           .replace('천명', '<span class="vocab-tip" title="피할 수 없는 슬픈 운명">천명</span>')
                           .replace('침전', '<span class="vocab-tip" title="무기력하게 바닥으로 가라앉음">침전</span>')}
           </div>
-          <div style="background:#f8fafc; border-radius:6px; padding:0.6rem 0.85rem; font-size:0.8rem; color:var(--text-muted);">
-            💡 밑줄 친 어휘에 마우스를 올리면 국어사전 해설이 나타납니다.
+          <div style="background:#f8fafc; border-radius:6px; padding:0.6rem 0.85rem; font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; gap:0.4rem;">
+            ${SVG.info()} 밑줄 친 어휘에 마우스를 올리면 국어사전 해설이 나타납니다.
           </div>
         `;
       } else if (block.type === 'thought') {
@@ -1554,7 +1690,9 @@
           <div class="thought-input-area">
             <textarea class="thought-textarea" id="${renderContainerId}-input" placeholder="${block.placeholder}"></textarea>
             <div style="display:flex; justify-content:flex-end;">
-              <button class="btn btn-primary btn-sm" onclick="submitStudentThought('${renderContainerId}-input')">생각 제출하기 🚀</button>
+              <button class="btn btn-primary btn-sm" onclick="submitStudentThought('${renderContainerId}-input')">
+                생각 제출하기 ${SVG.send()}
+              </button>
             </div>
           </div>
           
@@ -1571,7 +1709,7 @@
                     <div class="peer-text">${r.text}</div>
                   </div>
                   <button class="like-btn" onclick="toggleLike('${r.id}')">
-                    ❤️ <span>${r.likes}</span>
+                    ${SVG.heart(true)} <span>${r.likes}</span>
                   </button>
                 </div>
               `).join('')}
@@ -1616,8 +1754,12 @@
         html += `
           <p style="font-size:1.05rem; margin-bottom:1rem; color:#1e293b; font-weight:700;">${block.question}</p>
           <div style="display:flex; gap:1rem; margin-bottom:1rem;">
-            <button class="btn btn-outline" style="flex:1; padding:1.25rem; font-size:1.5rem; font-weight:800;" onclick="submitQuiz(true, '${renderContainerId}-quiz-result')">⭕ O</button>
-            <button class="btn btn-outline" style="flex:1; padding:1.25rem; font-size:1.5rem; font-weight:800;" onclick="submitQuiz(false, '${renderContainerId}-quiz-result')">❌ X</button>
+            <button class="btn btn-outline" style="flex:1; padding:1.25rem; font-size:1.5rem; font-weight:800;" onclick="submitQuiz(true, '${renderContainerId}-quiz-result')">
+              <span style="color:var(--primary); font-size:1.6rem; margin-right:0.3rem;">O</span> 참
+            </button>
+            <button class="btn btn-outline" style="flex:1; padding:1.25rem; font-size:1.5rem; font-weight:800;" onclick="submitQuiz(false, '${renderContainerId}-quiz-result')">
+              <span style="color:var(--danger); font-size:1.6rem; margin-right:0.3rem;">X</span> 거짓
+            </button>
           </div>
           <div id="${renderContainerId}-quiz-result" style="display:none; background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:1rem;"></div>
         `;
@@ -1687,8 +1829,8 @@
       if (box) {
         box.style.display = 'block';
         box.innerHTML = `
-          <div style="font-weight:700; font-size:1rem; color:${isCorrect ? 'var(--secondary)' : 'var(--danger)'}; margin-bottom:0.4rem;">
-            ${isCorrect ? '🎉 정답입니다!' : '🤔 아쉽지만 오답입니다!'}
+          <div style="font-weight:700; font-size:1rem; color:${isCorrect ? 'var(--secondary)' : 'var(--danger)'}; margin-bottom:0.4rem; display:flex; align-items:center; gap:0.4rem;">
+            ${isCorrect ? SVG.check() : SVG.cross()} ${isCorrect ? '정답입니다!' : '오답입니다!'}
           </div>
           <div style="font-size:0.85rem; color:#475569; line-height:1.5;">${block.explanation}</div>
         `;
@@ -1773,9 +1915,9 @@
         text.textContent = '문항 발문 파싱 및 인터랙티브 블록 매핑 중...';
         percent.textContent = '75%';
         detected.innerHTML = `
-          <span class="block-chip">📖 지문 (1문단~6문단)</span>
-          <span class="block-chip">💭 서술형 물음 2개</span>
-          <span class="block-chip">📊 찬반 토의 문항</span>
+          <span class="block-chip">${SVG.passage()} 지문 (1문단~6문단)</span>
+          <span class="block-chip">${SVG.thought()} 서술형 물음 2개</span>
+          <span class="block-chip">${SVG.poll()} 찬반 토의 문항</span>
         `;
       }, 700);
 
@@ -1806,8 +1948,8 @@
       const sorted = [...responses].sort((a,b) => b.likes - a.likes).slice(0, 2);
       best.innerHTML = sorted.map(r => `
         <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; padding:0.6rem 0.85rem; font-size:0.85rem;">
-          <div style="font-weight:700; color:#0369a1; font-size:0.75rem; margin-bottom:0.2rem;">
-            익명 (${r.nickname}) · ❤️ ${r.likes}명 공감
+          <div style="font-weight:700; color:#0369a1; font-size:0.75rem; margin-bottom:0.2rem; display:flex; align-items:center; gap:0.3rem;">
+            익명 (${r.nickname}) · ${SVG.heart(true)} ${r.likes}명 공감
           </div>
           <div>${r.text}</div>
         </div>
@@ -1820,7 +1962,6 @@
       document.getElementById('report-modal').classList.remove('active');
     }
 
-    // 새 창으로 열기 (role 분기 파라미터 적용)
     function openNewWindow(role) {
       const url = window.location.origin + window.location.pathname + '?role=' + role;
       window.open(url, '_blank', 'width=520,height=850');
